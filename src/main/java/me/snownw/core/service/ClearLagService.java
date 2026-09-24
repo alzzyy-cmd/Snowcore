@@ -15,6 +15,7 @@ public final class ClearLagService {
     private final SnowNWCorePlugin plugin;
     private long nextRunMillis = 0;
     private boolean running = false;
+    private int taskId = -1;
 
     public ClearLagService(SnowNWCorePlugin plugin) {
         this.plugin = plugin;
@@ -28,10 +29,14 @@ public final class ClearLagService {
         running = true;
         int everyMin = Math.max(1, plugin.getConfig().getInt("clearlag.every-minutes", 15));
         nextRunMillis = System.currentTimeMillis() + everyMin * 60_000L;
-        plugin.getServer().getScheduler().runTaskTimer(plugin, this::tick, 20L, 20L);
+        taskId = plugin.getServer().getScheduler().runTaskTimer(plugin, this::tick, 20L, 20L).getTaskId();
     }
 
     public void stop() {
+        if (taskId != -1) {
+            plugin.getServer().getScheduler().cancelTask(taskId);
+            taskId = -1;
+        }
         nextRunMillis = 0;
         running = false;
     }

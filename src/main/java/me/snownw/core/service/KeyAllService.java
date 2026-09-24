@@ -14,6 +14,7 @@ public final class KeyAllService {
     private final SnowNWCorePlugin plugin;
     private long nextRunMillis = 0;
     private boolean running = false;
+    private int taskId = -1;
 
     public KeyAllService(SnowNWCorePlugin plugin) {
         this.plugin = plugin;
@@ -27,14 +28,21 @@ public final class KeyAllService {
         running = true;
         int everyMin = Math.max(1, plugin.getConfig().getInt("key-all.every-minutes", 60));
         nextRunMillis = System.currentTimeMillis() + everyMin * 60_000L;
-        plugin.getServer().getScheduler().runTaskTimer(plugin, () -> {
+        taskId = plugin.getServer().getScheduler().runTaskTimer(plugin, () -> {
             if (!running || nextRunMillis <= 0 || System.currentTimeMillis() < nextRunMillis) return;
             executeAll();
             nextRunMillis = System.currentTimeMillis() + Math.max(1, plugin.getConfig().getInt("key-all.every-minutes", 60)) * 60_000L;
-        }, 20L * 60, 20L * 60);
+        }, 20L * 60, 20L * 60).getTaskId();
     }
 
-    public void stop() { nextRunMillis = 0; running = false; }
+    public void stop() {
+        if (taskId != -1) {
+            plugin.getServer().getScheduler().cancelTask(taskId);
+            taskId = -1;
+        }
+        nextRunMillis = 0;
+        running = false;
+    }
 
     public long secondsRemaining() { return Math.max(0, (nextRunMillis - System.currentTimeMillis()) / 1000L); }
 
