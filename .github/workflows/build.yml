@@ -20,11 +20,11 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Set up JDK 21
+      - name: Set up JDK 25
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '21'
+          java-version: '25'
           cache: 'maven'
 
       - name: Resolve Paper API version
@@ -33,7 +33,14 @@ jobs:
           set -e
           META="https://repo.papermc.io/repository/maven-public/io/papermc/paper/paper-api/maven-metadata.xml"
           curl -sfL "$META" -o meta.xml
-          V=$(grep -oE '<version>26\.1\.[0-9]+-R0\.1-SNAPSHOT</version>' meta.xml | grep -oE '26\.1\.[0-9]+-R0\.1-SNAPSHOT' | sort -V | tail -n1)
+          mkdir -p build
+          cp meta.xml build/paper-api-versions.xml
+          # 26.1.x kararlı sürümlerini bul (snapshot ve pre/alpha/beta hariç önce tercih edilir)
+          V=$(grep -oE '<version>26\.1[^<]*</version>' meta.xml | sed -E 's/<\/?version>//g' \
+                | grep -viE 'alpha|beta|pre' | sort -V | tail -n1)
+          if [ -z "$V" ]; then
+            V=$(grep -oE '<version>26\.1[^<]*</version>' meta.xml | sed -E 's/<\/?version>//g' | sort -V | tail -n1)
+          fi
           if [ -z "$V" ]; then
             V=$(grep -oE '<latest>[^<]+</latest>' meta.xml | sed -E 's/<\/?latest>//g')
           fi
@@ -54,6 +61,7 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git pull --rebase origin ${{ github.ref_name }} || git pull --rebase origin main
           mkdir -p build
+          cp -f meta.xml build/paper-api-versions.xml 2>/dev/null || true
           cp -f build-output.log build/build.log 2>/dev/null || true
           if [ "${{ steps.build.outcome }}" == "success" ]; then
             rm -f build/*.jar
