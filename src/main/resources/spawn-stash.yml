@@ -1,0 +1,516 @@
+settings:
+  enabled: true
+  duration-seconds: 30
+  max-types: 5
+types:
+  1:
+    enabled: true
+    display-name: '&dcompact amethyst stash'
+    duration-seconds: 30
+    blocks:
+      '0':
+        offset:
+        - -1
+        - 0
+        - 0
+        material: DEEPSLATE
+      '1':
+        offset:
+        - 0
+        - 0
+        - 0
+        material: SPAWNER
+        spawner-type: SKELETON
+      '2':
+        offset:
+        - 1
+        - 0
+        - 0
+        material: DEEPSLATE
+      '3':
+        offset:
+        - -1
+        - 0
+        - 1
+        material: COBBLED_DEEPSLATE
+      '4':
+        offset:
+        - 0
+        - 0
+        - 1
+        material: AMETHYST_BLOCK
+      '5':
+        offset:
+        - 1
+        - 0
+        - 1
+        material: COBBLED_DEEPSLATE
+      '6':
+        offset:
+        - -1
+        - 1
+        - 0
+        material: DEEPSLATE_TILES
+      '7':
+        offset:
+        - 1
+        - 1
+        - 0
+        material: DEEPSLATE_TILES
+      '8':
+        offset:
+        - -1
+        - 1
+        - 1
+        material: DEEPSLATE
+      '9':
+        offset:
+        - 0
+        - 1
+        - 1
+        material: BUDDING_AMETHYST
+      '10':
+        offset:
+        - 1
+        - 1
+        - 1
+        material: DEEPSLATE
+      '11':
+        offset:
+        - 0
+        - 2
+        - 1
+        material: AMETHYST_CLUSTER
+      '12':
+        offset:
+        - -1
+        - 2
+        - 1
+        material: POLISHED_DEEPSLATE
+      '13':
+        offset:
+        - 1
+        - 2
+        - 1
+        material: POLISHED_DEEPSLATE
+  2:
+    enabled: true
+    display-name: '&5double spawner chest stash'
+    duration-seconds: 30
+    blocks:
+      '0':
+        offset:
+        - -1
+        - 0
+        - 0
+        material: COBBLED_DEEPSLATE
+      '1':
+        offset:
+        - 0
+        - 0
+        - 0
+        material: COBBLED_DEEPSLATE
+      '2':
+        offset:
+        - 1
+        - 0
+        - 0
+        material: COBBLED_DEEPSLATE
+      '3':
+        offset:
+        - -1
+        - 0
+        - 1
+        material: SPAWNER
+        spawner-type: ZOMBIE
+      '4':
+        offset:
+        - 0
+        - 0
+        - 1
+        material: CHEST
+        container-items:
+          '0':
+            slot: 10
+            material: DIAMOND
+            amount: 12
+          '1':
+            slot: 13
+            material: EMERALD
+            amount: 16
+      '5':
+        offset:
+        - 1
+        - 0
+        - 1
+        material: SPAWNER
+        spawner-type: SKELETON
+      '6':
+        offset:
+        - -1
+        - 1
+        - 1
+        material: CHEST
+        container-items:
+          '0':
+            slot: 11
+            material: GOLD_INGOT
+            amount: 24
+          '1':
+            slot: 15
+            material: AMETHYST_SHARD
+            amount: 32
+      '7':
+        offset:
+        - 0
+        - 1
+        - 1
+        material: CHEST
+        container-items:
+          '0':
+            slot: 13
+            material: ENCHANTED_GOLDEN_APPLE
+            amount: 1
+      '8':
+        offset:
+        - 1
+        - 1
+        - 1
+        material: CHEST
+        container-items:
+          '0':
+            slot: 13
+            material: NETHERITE_INGOT
+            amount: 2
+      '9':
+        offset:
+        - -1
+        - 2
+        - 1
+        material: DEEPSLATE_BRICKS
+      '10':
+        offset:
+        - 0
+        - 2
+        - 1
+        material: DEEPSLATE_BRICKS
+      '11':
+        offset:
+        - 1
+        - 2
+        - 1
+        material: DEEPSLATE_BRICKS
+      '12':
+        offset:
+        - -1
+        - 3
+        - 1
+        material: PURPLE_SHULKER_BOX
+        container-items:
+          '0':
+            slot: 13
+            material: ECHO_SHARD
+            amount: 8
+      '13':
+        offset:
+        - -1
+        - 2
+        - 0
+        material: ENDER_CHEST
+  3:
+    enabled: true
+    display-name: '&amossy ore stash'
+    duration-seconds: 30
+    blocks:
+      '0':
+        offset:
+        - -1
+        - 0
+        - 0
+        material: MOSSY_COBBLESTONE
+      '1':
+        offset:
+        - 0
+        - 0
+        - 0
+        material: MOSSY_COBBLESTONE
+      '2':
+        offset:
+        - 1
+        - 0
+        - 0
+        material: MOSSY_COBBLESTONE
+      '3':
+        offset:
+        - -1
+        - 0
+        - 1
+        material: CHEST
+        container-items:
+          '0':
+            slot: 13
+            material: REDSTONE
+            amount: 32
+      '4':
+        offset:
+        - 0
+        - 0
+        - 1
+        material: SPAWNER
+        spawner-type: CREEPER
+      '5':
+        offset:
+        - 1
+        - 0
+        - 1
+        material: CHEST
+        container-items:
+          '0':
+            slot: 13
+            material: GOLD_INGOT
+            amount: 20
+      '6':
+        offset:
+        - -1
+        - 1
+        - 1
+        material: DEEPSLATE_REDSTONE_ORE
+      '7':
+        offset:
+        - 0
+        - 1
+        - 1
+        material: LANTERN
+      '8':
+        offset:
+        - 1
+        - 1
+        - 1
+        material: DEEPSLATE_GOLD_ORE
+      '9':
+        offset:
+        - -1
+        - 1
+        - 0
+        material: MOSSY_COBBLESTONE
+      '10':
+        offset:
+        - 1
+        - 1
+        - 0
+        material: MOSSY_COBBLESTONE
+      '11':
+        offset:
+        - -1
+        - 2
+        - 1
+        material: MOSSY_COBBLESTONE
+      '12':
+        offset:
+        - 0
+        - 2
+        - 1
+        material: MOSSY_COBBLESTONE
+      '13':
+        offset:
+        - 1
+        - 2
+        - 1
+        material: MOSSY_COBBLESTONE
+  4:
+    enabled: true
+    display-name: '&6mineshaft sign stash'
+    duration-seconds: 30
+    blocks:
+      '0':
+        offset:
+        - -1
+        - 0
+        - 0
+        material: DEEPSLATE
+      '1':
+        offset:
+        - 0
+        - 0
+        - 0
+        material: RAIL
+      '2':
+        offset:
+        - 1
+        - 0
+        - 0
+        material: DEEPSLATE
+      '3':
+        offset:
+        - -1
+        - 0
+        - 1
+        material: CHEST
+        container-items:
+          '0':
+            slot: 13
+            material: IRON_INGOT
+            amount: 32
+      '4':
+        offset:
+        - 0
+        - 0
+        - 1
+        material: SPAWNER
+        spawner-type: ZOMBIE
+      '5':
+        offset:
+        - 1
+        - 0
+        - 1
+        material: DEEPSLATE_IRON_ORE
+      '6':
+        offset:
+        - 0
+        - 1
+        - 0
+        material: OAK_SIGN
+        sign-lines:
+        - '&6private mine'
+        - '&7no entry'
+        - ''
+        - ''
+      '7':
+        offset:
+        - -1
+        - 1
+        - 1
+        material: DEEPSLATE_BRICKS
+      '8':
+        offset:
+        - 0
+        - 1
+        - 1
+        material: DEEPSLATE_BRICKS
+      '9':
+        offset:
+        - 1
+        - 1
+        - 1
+        material: DEEPSLATE_BRICKS
+      '10':
+        offset:
+        - -1
+        - 2
+        - 1
+        material: DEEPSLATE_TILES
+      '11':
+        offset:
+        - 0
+        - 2
+        - 1
+        material: DEEPSLATE_TILES
+      '12':
+        offset:
+        - 1
+        - 2
+        - 1
+        material: DEEPSLATE_TILES
+  5:
+    enabled: true
+    display-name: '&dpremium amethyst spawner stash'
+    duration-seconds: 30
+    blocks:
+      '0':
+        offset:
+        - -1
+        - 0
+        - 0
+        material: CHISELED_DEEPSLATE
+      '1':
+        offset:
+        - 0
+        - 0
+        - 0
+        material: AMETHYST_BLOCK
+      '2':
+        offset:
+        - 1
+        - 0
+        - 0
+        material: CHISELED_DEEPSLATE
+      '3':
+        offset:
+        - -1
+        - 0
+        - 1
+        material: SPAWNER
+        spawner-type: BLAZE
+      '4':
+        offset:
+        - 0
+        - 0
+        - 1
+        material: CHEST
+        container-items:
+          '0':
+            slot: 11
+            material: DIAMOND
+            amount: 24
+          '1':
+            slot: 13
+            material: NETHERITE_INGOT
+            amount: 3
+          '2':
+            slot: 15
+            material: ENCHANTED_GOLDEN_APPLE
+            amount: 2
+      '5':
+        offset:
+        - 1
+        - 0
+        - 1
+        material: SPAWNER
+        spawner-type: IRON_GOLEM
+      '6':
+        offset:
+        - -1
+        - 1
+        - 1
+        material: BUDDING_AMETHYST
+      '7':
+        offset:
+        - 0
+        - 1
+        - 1
+        material: AMETHYST_CLUSTER
+      '8':
+        offset:
+        - 1
+        - 1
+        - 1
+        material: BUDDING_AMETHYST
+      '9':
+        offset:
+        - -1
+        - 2
+        - 1
+        material: POLISHED_BLACKSTONE_BRICKS
+      '10':
+        offset:
+        - 0
+        - 2
+        - 1
+        material: REINFORCED_DEEPSLATE
+      '11':
+        offset:
+        - 1
+        - 2
+        - 1
+        material: POLISHED_BLACKSTONE_BRICKS
+      '12':
+        offset:
+        - 0
+        - 3
+        - 1
+        material: PURPLE_SHULKER_BOX
+        container-items:
+          '0':
+            slot: 13
+            material: ECHO_SHARD
+            amount: 12

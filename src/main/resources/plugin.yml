@@ -1,0 +1,11 @@
+name: SnowNWCore
+version: '0.2.3-26.1'
+main: me.snownw.core.SnowNWCorePlugin
+api-version: '26.1'
+author: SnowNW Team
+softdepend: [PlaceholderAPI, Vault, LuckPerms]
+
+permissions:
+  snownwcore.amethysttool:
+    description: Amethyst yardımcı eşyalarını yönetme
+    default: op

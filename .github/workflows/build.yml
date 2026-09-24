@@ -1,0 +1,62 @@
+name: Build SnowNWCore
+
+on:
+  push:
+    branches: ['**']
+    paths-ignore:
+      - 'build/**'
+      - '*.zip'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: 'maven'
+
+      - name: Resolve Paper API version
+        id: paper
+        run: |
+          set -e
+          META="https://repo.papermc.io/repository/maven-public/io/papermc/paper/paper-api/maven-metadata.xml"
+          curl -sfL "$META" -o meta.xml
+          V=$(grep -oE '<version>26\.1\.[0-9]+-R0\.1-SNAPSHOT</version>' meta.xml | grep -oE '26\.1\.[0-9]+-R0\.1-SNAPSHOT' | sort -V | tail -n1)
+          if [ -z "$V" ]; then
+            V=$(grep -oE '<latest>[^<]+</latest>' meta.xml | sed -E 's/<\/?latest>//g')
+          fi
+          echo "Paper API resolved: $V"
+          echo "version=$V" >> "$GITHUB_OUTPUT"
+
+      - name: Build with Maven
+        run: mvn -q -B package -Dpaper.version=${{ steps.paper.outputs.version }}
+
+      - name: Upload jar artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: SnowNWCore-jar
+          path: target/*.jar
+          retention-days: 30
+
+      - name: Commit built jar back to repo (build/)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          mkdir -p build
+          rm -f build/*.jar
+          cp target/*.jar build/
+          git add -f build/*.jar
+          git commit -m "ci: build jar [skip ci]" || echo "no changes"
+          git push

@@ -1,0 +1,12 @@
+enabled: true
+update-ticks: 20
+title: "SnowNW"
+lines:
+  - "&#00FC00&l$ &fPara &f%snownwcore_balance_formatted%"
+  - "&#A303F9★ &fShard &f%snownwcore_shards%"
+  - "&#FC0000🗡 &fÖldürme &f%snownwcore_kills%"
+  - "&#F97603☠ &fÖlme &f%snownwcore_deaths%"
+  - "&#00A4FC⌛ &fOynama &f%snownwcore_playtime%"
+  - "&#00A4FC⚑ &fTakım &f%snownwcore_team_line%"
+  - ""
+  - "&#00A4FC¤ &fPing: &f%ping%ms"

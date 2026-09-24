@@ -1,0 +1,93 @@
+# You can enable/disable this feature
+ENABLED: true
+
+SETTINGS:
+  # Max players using RTP simultaneously
+  PLAYERS-IN-RTP: 3
+  # Max tries to find a valid RTP location before failing
+  MAX-ATTEMPTS: 40
+
+SAFETY:
+  # Nether roof is intentionally excluded. Do not raise this to 127+.
+  NETHER:
+    MAX-SURFACE-Y: 118
+
+MESSAGES:
+  # General RTP messages
+  DISABLED: "&cRTP şu anda kapalı."
+  COOLDOWN: "&cRTP için {remaining}s daha beklemelisin."
+  MAX-PLAYERS: "&cŞu anda çok fazla oyuncu RTP kullanıyor. Biraz sonra tekrar dene."
+  WORLD-NOT-EXIST: "&cDünya bulunamadı."
+  # RTP process messages
+  SEARCHING: "&a{world} dünyasında güvenli konum aranıyor..."
+  SAFE-LOCATION-FOUND: "&aGüvenli konum bulundu: X:{x} Y:{y} Z:{z}"
+  MAX-ATTEMPTS: "&cGüvenli konum bulunamadı."
+  # Menu messages
+  DESTINATION-DISABLED: "&cBu RTP hedefi şu anda kapalı."
+  # Safety check messages (for debugging)
+  UNSAFE-LOCATION: "&cX:{x} Y:{y} Z:{z} konumu reddedildi: {reason}"
+
+# Deny worlds from rtp command
+DENIED-WORLDS:
+  - afk
+
+WORLD-SETTINGS:
+  world: # Overworld name
+    MAX-RADIUS: 5000
+    MIN-RADIUS: 500
+    CENTER-X: 0
+    CENTER-Z: 0
+    COOLDOWN: 30 # In seconds
+  world_nether:
+    MAX-RADIUS: 500
+    MIN-RADIUS: 50
+    CENTER-X: 0
+    CENTER-Z: 0
+    COOLDOWN: 30 # In seconds
+  world_the_end:
+    MAX-RADIUS: 2000
+    MIN-RADIUS: 150
+    CENTER-X: 0
+    CENTER-Z: 0
+    COOLDOWN: 30 # In seconds
+
+RTP-MENU:
+  # Legacy chest menu retained only for compatibility; SnowNW uses Dialog.
+  TITLE: "&8ʀᴀɴᴅᴏᴍ ᴛᴇʟᴇᴘᴏʀᴛ"
+  SIZE: 27
+  PLACEHOLDER: true
+  BUTTONS:
+    OVERWORLD:
+      DISPLAY-NAME: "&aDünya"
+      MATERIAL: "GRASS_BLOCK"
+      SLOT: 11
+      WORLD: "world"
+      ENABLED: true
+      LORE:
+        - "&fRTP için tıkla"
+        - ""
+        - "&7Oyuncular: &b{players}"
+        - "&7Ping: &b{ping}ms"
+    NETHER:
+      DISPLAY-NAME: "&cNether"
+      MATERIAL: "NETHERRACK"
+      SLOT: 13
+      WORLD: "world_nether"
+      ENABLED: true
+      LORE:
+        - "&fRTP için tıkla"
+        - ""
+        - "&7Oyuncular: &b{players}"
+        - "&7Ping: &b{ping}ms"
+    THE_END:
+      DISPLAY-NAME: "&eEnd"
+      MATERIAL: "END_STONE"
+      SLOT: 15
+      WORLD: "world_the_end"
+      ENABLED: true
+      LORE:
+        - "&fRTP için tıkla"
+        - ""
+        - "&7Oyuncular: &b{players}"
+        - "&7Ping: &b{ping}ms"
+

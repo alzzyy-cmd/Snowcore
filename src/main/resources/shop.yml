@@ -1,0 +1,103 @@
+# SnowNW Market - Türkçe mağaza
+items:
+  stone:
+    category: "Bloklar"
+    material: STONE
+    amount: 16
+    buy: 100
+    sell: 40
+    currency: MONEY
+  oak_log:
+    category: "Bloklar"
+    material: OAK_LOG
+    amount: 16
+    buy: 180
+    sell: 70
+    currency: MONEY
+  glass:
+    category: "Bloklar"
+    material: GLASS
+    amount: 16
+    buy: 150
+    sell: 60
+    currency: MONEY
+  bread:
+    category: "Tarım"
+    material: BREAD
+    amount: 16
+    buy: 120
+    sell: 45
+    currency: MONEY
+  sugar_cane:
+    category: "Tarım"
+    material: SUGAR_CANE
+    amount: 16
+    buy: 200
+    sell: 80
+    currency: MONEY
+  diamond:
+    category: "Maden"
+    material: DIAMOND
+    amount: 1
+    buy: 25000
+    sell: 9000
+    currency: MONEY
+  emerald:
+    category: "Maden"
+    material: EMERALD
+    amount: 1
+    buy: 18000
+    sell: 6500
+    currency: MONEY
+  golden_apple:
+    category: "Savaş"
+    material: GOLDEN_APPLE
+    amount: 1
+    buy: 5000
+    sell: 1000
+    currency: MONEY
+  obsidian:
+    category: "Savaş"
+    material: OBSIDIAN
+    amount: 16
+    buy: 3500
+    sell: 1200
+    currency: MONEY
+  ender_pearl:
+    category: "Savaş"
+    material: ENDER_PEARL
+    amount: 4
+    buy: 1800
+    sell: 600
+    currency: MONEY
+  shard_pack:
+    category: "Özel"
+    material: AMETHYST_SHARD
+    amount: 1
+    buy: 25
+    sell: 0
+    currency: SHARDS
+  zombie_spawner:
+    category: "Spawnerlar"
+    material: SPAWNER
+    amount: 1
+    buy: 250
+    sell: 80
+    currency: SHARDS
+    spawner-type: ZOMBIE
+  skeleton_spawner:
+    category: "Spawnerlar"
+    material: SPAWNER
+    amount: 1
+    buy: 350
+    sell: 120
+    currency: SHARDS
+    spawner-type: SKELETON
+  creeper_spawner:
+    category: "Spawnerlar"
+    material: SPAWNER
+    amount: 1
+    buy: 500
+    sell: 175
+    currency: SHARDS
+    spawner-type: CREEPER

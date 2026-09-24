@@ -1,0 +1,553 @@
+# ============================================================
+# SnowNWCore – main configuration
+# SnowNW Core 26.1
+# ============================================================
+
+title: "&fSnowNW"
+subtitle: "&7SnowNW kontrol merkezi"
+menu-icon: NETHER_STAR
+button-width: 150
+home-button-width: 100
+minimum-protocol: 0
+prefix: "&8[&fSnowNW&7Core&8] &r"
+
+# ============================================================
+# Commands enable (false = disabled + hidden from dialog)
+# ============================================================
+commands:
+  team: true
+  menu: true
+  homes: true
+  sethome: true
+  delhome: true
+  home: true
+  friends: true
+  tpa: true
+  tpahere: true
+  tpaccept: true
+  tpdeny: true
+  tpauto: true
+  tpacancel: true
+  settings: true
+  stats: true
+  leaderboard: true
+  worth: true
+  profilemanager: true
+  balance: true
+  bal: true
+  pay: true
+  msg: true
+  enderchest: true
+  ah: true
+  rtp: true
+  rtpqueue: true
+  spawn: true
+  warp: true
+  kit: true
+  afk: true
+  setafk: true
+  freeze: true
+  unfreeze: true
+  rank: true
+  report: true
+  helpop: true
+  rules: true
+  serverinfo: true
+  hide: true
+  voice: true
+  alan: true
+  alanbaltasi: true
+  spawnstash: true
+
+# ============================================================
+# Homes
+# ============================================================
+homes:
+  enabled: true
+  max-homes: 90
+  homes-per-page: 15
+  teleport-delay-seconds: 5
+  show-coords-in-dialog: false
+
+# ============================================================
+# Friends
+# ============================================================
+friends:
+  enabled: true
+
+# ============================================================
+# TPA
+# ============================================================
+tpa:
+  enabled: true
+  default-policy: FRIENDS_AND_FOLLOWING
+  timeout-seconds: 60
+  tpauto-default: false
+  tpauto-chat-messages: true
+  tpauto-actionbar-messages: true
+  tpauto-sound-on: BLOCK_BEACON_ACTIVATE
+  tpauto-sound-off: BLOCK_BEACON_DEACTIVATE
+
+# ============================================================
+# Settings / Stats / Leaderboards
+# ============================================================
+settings:
+  enabled: true
+stats:
+  enabled: true
+leaderboards:
+  enabled: true
+
+# ============================================================
+# Teleport
+# ============================================================
+teleport:
+  delay-seconds: 5
+  cancel-on-move: true
+  sound: ENTITY_PLAYER_LEVELUP
+  sound-volume: 0.7
+  sound-pitch: 1.2
+  chat-messages: true
+  actionbar-messages: true
+  chat-countdown: false
+
+# Common teleport delay fallback used by Home/Warp/Spawn/TPA
+teleport-delay-seconds: 5
+
+
+# ============================================================
+# Combat / PvP
+# ============================================================
+combat:
+  enabled: true
+  duration-seconds: 20
+  max-distance: 200
+  check-period-ticks: 10
+  notify-chat-on-enter: true
+  enter-sound: BLOCK_ANVIL_LAND
+  enter-sound-volume: 0.8
+  enter-sound-pitch: 1.0
+  blocked-commands:
+    - home
+    - ev
+    - homes
+    - evler
+    - sethome
+    - evayarla
+    - delhome
+    - evsil
+    - warp
+    - warps
+    - rtp
+    - rtpqueue
+    - spawn
+    - tpa
+    - tpahere
+    - tpaccept
+    - tpyes
+    - kit
+    - tpdeny
+    - tpno
+    - tpauto
+    - tpacancel
+
+# ============================================================
+# Chat / join-leave / death
+# ============================================================
+chat:
+  join-leave-enabled: true
+  death-messages-enabled: true
+  death-message-chunks: 10
+  public-chat-default: true
+  private-messages-default: true
+
+# ============================================================
+# Scoreboard
+# ============================================================
+scoreboard:
+  enabled: true
+  update-ticks: 20
+  default-style: modern
+
+# ============================================================
+# ESC pause button
+# ============================================================
+pause-menu:
+  enabled: true
+  button-text: "SnowNWSMP"
+
+# ============================================================
+# Worth
+# ============================================================
+worth:
+  enabled: true
+  default-value: 0
+  lore-format: "&7Değer: &a${amount}"
+
+# ============================================================
+# Mob hide
+# ============================================================
+mob-hide:
+  enabled: true
+  remove-nearby: true
+  remove-radius: 48
+  blacklist:
+    - ZOMBIE
+    - SKELETON
+    - CREEPER
+    - SPIDER
+    - ENDERMAN
+    - WITCH
+    - PHANTOM
+    - DROWNED
+    - HUSK
+    - STRAY
+    - SLIME
+    - MAGMA_CUBE
+    - BLAZE
+    - GHAST
+    - PIGLIN
+    - PIGLIN_BRUTE
+    - HOGLIN
+    - ZOGLIN
+    - WARDEN
+    - VINDICATOR
+    - PILLAGER
+    - RAVAGER
+    - EVOKER
+    - VEX
+    - GUARDIAN
+    - ELDER_GUARDIAN
+    - SHULKER
+    - SILVERFISH
+    - ENDERMITE
+    - CAVE_SPIDER
+    - WITHER_SKELETON
+
+# ============================================================
+# Sounds (no separate sounds.yml)
+# ============================================================
+sounds:
+  menu-click: UI_BUTTON_CLICK
+  teleport: ENTITY_PLAYER_LEVELUP
+  error: ENTITY_VILLAGER_NO
+  success: ENTITY_PLAYER_LEVELUP
+  tpa: BLOCK_NOTE_BLOCK_PLING
+  flashlight-on: BLOCK_NOTE_BLOCK_PLING
+  flashlight-off: BLOCK_NOTE_BLOCK_BASS
+
+
+# ============================================================
+# Ender chest
+# ============================================================
+enderchest:
+  enabled: true
+  # true = 6 rows (54), false = 3 rows (27)
+  six-row: true
+  # seconds between open/close (dupe protection)
+  cooldown-seconds: 3
+  title: "&8Ender Chest"
+
+
+shards:
+  enabled: true
+  every-seconds: 600
+  amount: 1
+rtp:
+  enabled: true
+  countdown-seconds: 5
+  cooldown-seconds: 30
+  min-range: 100
+  max-range: 5000
+  world: world
+team:
+  enabled: true
+  max-members: 8
+wand:
+  name: "&6SnowNW Wand"
+cuboid:
+  enabled: true
+database:
+  type: YAML
+
+
+# ============================================================
+# RTP Zones (linked to /cuboid names)
+# ============================================================
+# 1) Create region: /snownwcore wand → select → /cuboid create spawn_rtp
+# 2) List name under required-cuboids so RTP only lands inside that cuboid
+# 3) use-from-cuboids: only allow /rtp while standing in those cuboids (empty = anywhere)
+rtp-zones:
+  enabled: false
+  required-cuboids: []
+  use-from-cuboids: []
+
+
+# ============================================================
+# RTP Zone (cuboid name MUST be: rtpzone)
+# ============================================================
+# 1) /snownwcore wand
+# 2) Select pos1 + pos2
+# 3) /cuboid create rtpzone     (only ONE allowed)
+# 4) /cuboid delete rtpzone     (remove)
+rtp-zone:
+  enabled: true
+  trigger-on-enter: true
+  destination-world: world
+
+# Spawner
+spawners:
+  enabled: true
+  drop-on-break: true
+
+# Market
+shop:
+  enabled: true
+  rows: 6
+  buy-enabled: true
+  sell-enabled: true
+  shard-enabled: true
+
+# Kur / oran çarpanları
+rates:
+  buy: 1.0
+  sell: 1.0
+  shard: 1.0
+
+# XRatesLife uyumluluk işareti: harici eklenti varsa oran servisi gelecekte buradan bağlanabilir.
+xrateslife:
+  enabled: true
+
+# ============================================================
+# SnowNW Tablist
+# ============================================================
+tab:
+  enabled: true
+  update-ticks: 20
+  header: "&b&lSnowNW\n&7Oyuncu listesi"
+  footer: "&7SnowNW"
+
+# ============================================================
+# Kitler
+# Normal oyuncularda hiçbir kit yetkisi yoktur.
+# Yetki: snownwcore.kit.<kit-adı>
+# ============================================================
+kits:
+  enabled: true
+  starter:
+    display-name: "&aBaşlangıç Kiti"
+    permission: "snownwcore.kit.starter"
+    cooldown-seconds: 86400
+    items:
+      - "STONE_PICKAXE:1"
+      - "BREAD:16"
+
+# ============================================================
+# Spawn / Warps
+# ============================================================
+spawn:
+  enabled: true
+  world: world
+# Warps can be added by admins through config/API.
+warps: {}
+
+# ============================================================
+# Açık Artırma
+# ============================================================
+auction:
+  enabled: true
+  max-listings-per-player: 10
+
+
+# ============================================================
+# Extra SnowNW systems
+# ============================================================
+extras:
+  afk:
+    enabled: true
+  freeze:
+    enabled: true
+  rank:
+    enabled: true
+  reports:
+    enabled: true
+  hide:
+    enabled: true
+  voice:
+    enabled: true
+
+# ============================================================
+# Spawn Stash — geçici anti-hile tuzağı
+# Oluşturulan sahte stash belirtilen süre sonunda otomatik kaldırılır.
+# ============================================================
+spawn-stash:
+  enabled: true
+  duration-seconds: 30
+  alert-radius: 8
+
+
+# ============================================================
+# SnowNW Renk Sistemi
+# Tüm legacy renk kodları tek yerden kontrol edilebilir.
+# Örn: e -> b yaparsanız &e mesajları açık mavi olur.
+# ============================================================
+colors:
+  enabled: true
+  legacy-map:
+    '0': '0'
+    '1': '1'
+    '2': '2'
+    '3': '3'
+    '4': '4'
+    '5': '5'
+    '6': '6'
+    '7': '7'
+    '8': '8'
+    '9': '9'
+    'a': 'a'
+    'b': 'b'
+    'c': 'c'
+    'd': 'd'
+    'e': 'e'
+    'f': 'f'
+
+# Sahte oyuncu görsel tuzağı
+fakeplayer:
+  duration-seconds: 60
+  alert-radius: 8
+
+# Hızlı oyun modu komutları
+gamemode:
+  permission: "snownwcore.gamemode"
+
+
+# Ultimate'daki Amethyst sisteminden alınan güvenli yardımcı eşyalar.
+# Eski kasa/crate sistemi bu çekirdeğe dahil edilmemiştir.
+amethyst-tools:
+  excluded-worlds:
+    - duels
+  particles:
+    enabled: true
+  drill:
+    material: NETHERITE_PICKAXE
+    name: '&#9B59B6&lAmethyst Drill'
+    lore:
+      - '&#BDC3C7Vurduğun blok çevresinde &d9 blok &7kırar'
+      - '&#BDC3C7Amethyst enerjisi ile çalışır'
+      - ''
+      - '&#9B59B6✦ Süreli Eşya'
+      - '&#BDC3C7{time}'
+    radius: 1
+    disabled-blocks:
+      - DIRT
+      - GRASS_BLOCK
+      - COARSE_DIRT
+      - ROOTED_DIRT
+      - PODZOL
+      - SAND
+      - RED_SAND
+      - GRAVEL
+      - SPAWNER
+      - BEDROCK
+      - OBSIDIAN
+      - CRYING_OBSIDIAN
+      - END_PORTAL_FRAME
+      - FARMLAND
+      - SOUL_SAND
+      - SOUL_SOIL
+    duration: 86400
+  shovel:
+    material: NETHERITE_SHOVEL
+    name: '&#9B59B6&lAmethyst Shovel'
+    lore:
+      - '&#BDC3C7Yumuşak zeminde &d9 blok &7kırar'
+      - '&#BDC3C7Sadece uygun toprak/kum bloklarında çalışır'
+      - ''
+      - '&#9B59B6✦ Süreli Eşya'
+      - '&#BDC3C7{time}'
+    radius: 1
+    allowed-blocks:
+      - DIRT
+      - GRASS_BLOCK
+      - COARSE_DIRT
+      - PODZOL
+      - ROOTED_DIRT
+      - GRAVEL
+      - SAND
+      - RED_SAND
+      - CLAY
+      - SOUL_SAND
+      - SOUL_SOIL
+      - FARMLAND
+      - DIRT_PATH
+      - SNOW
+      - SNOW_BLOCK
+      - POWDER_SNOW
+      - MUD
+    duration: 86400
+  bucket:
+    material: BUCKET
+    name: '&#9B59B6&lAmethyst Bucket'
+    lore:
+      - '&#BDC3C7Yakındaki suyu toplu şekilde boşaltır'
+      - '&#BDC3C727 su bloğuna kadar destekler'
+      - ''
+      - '&#9B59B6✦ Süreli Eşya'
+      - '&#BDC3C7{time}'
+    drain-radius: 1
+    max-drain: 27
+    duration: 86400
+  shard_booster:
+    material: POTION
+    name: '&#9B59B6&lShard Booster'
+    lore:
+      - '&#BDC3C7&d2x &7Shard çarpanı'
+      - '&#BDC3C7Süre: &d60 dakika'
+      - ''
+      - '&#BDC3C7İçerek etkinleştir'
+      - ''
+      - '&#9B59B6✦ Tek kullanımlık'
+      - '&#BDC3C7{time}'
+    booster-duration: 3600
+    multiplier: 2
+    duration: 3600
+
+# ============================================================
+# SnowNW Dialog Renk Temasi
+# Tum dialog menuleri bu paleti kullanir.
+# ============================================================
+# ============================================================
+# SnowNW Dialog Görsel Tema
+# Tüm dialog menüleri bu paletten beslenir; boş bırakılırsa
+# kod içindeki varsayılan değerler kullanılır.
+# ============================================================
+dialog-theme:
+  # Renkler
+  header: "&b"
+  separator: "&8"
+  tooltip: "&7"
+  success: "&a"
+  danger: "&c"
+  warning: "&e"
+  accent: "&b"
+  muted: "&8"
+
+  # Görsel stil
+  icons: true            # simgeler/ikonlar (uyumsuz istemcide false yapın)
+  divider: "──────────────"
+
+  # Kolon sayıları
+  main-columns: 2        # ana menü
+  list-columns: 2        # liste menüleri (arkadaş, warp, rtp, ışınlanma)
+  detail-columns: 1      # tek nesne/aksiyon menüleri
+  home-columns: 4        # ev yuvası ızgarası
+
+  # Kategori renkleri
+  categories:
+    homes: "&a"
+    teleport: "&b"
+    economy: "&6"
+    social: "&d"
+    progress: "&e"
+    admin: "&c"
+    neutral: "&7"
