@@ -67,6 +67,10 @@ public final class DialogMenus {
         if (plugin.cmdEnabled("worth")) buttons.add(btn("\u2756", cat("progress") + "Fiyatlar", "Eşya satış değerleri", "worth"));
         if (plugin.getConfig().getBoolean("kits.enabled", true) && !plugin.kits().available(player).isEmpty()) buttons.add(btn("\u271a", cat("economy") + "Kitler", "Yetkine sahip olduğun kitleri al", "kits"));
         if (plugin.cmdEnabled("ah") && plugin.getConfig().getBoolean("auction.enabled", true)) buttons.add(btn("\u2691", cat("economy") + "Açık Artırma", "Oyuncu ilanlarını görüntüle", "ah"));
+        if (plugin.cmdEnabled("market")) buttons.add(btn("\u2728", cat("economy") + "Market", "Sunucu mağazasından al/sat", "market"));
+        if (plugin.cmdEnabled("order")) buttons.add(btn("\u2622", cat("economy") + "Siparişler", "Alım emirlerini gör ve sat", "orders"));
+        if (plugin.cmdEnabled("bounty")) buttons.add(btn("\u2620", cat("economy") + "Kafa Ödülleri", "Başına ödül konan oyuncular", "bounty"));
+        if (plugin.cmdEnabled("shardshop")) buttons.add(btn("\u2742", cat("economy") + "Shard Pazarı", "Shard ile özel ödüller", "shardshop"));
         if (plugin.cmdEnabled("friends")) buttons.add(btn("\u2764", cat("social") + "Arkadaşlar", "Arkadaş ve takip listesi", "friends"));
         if (plugin.cmdEnabled("pay")) buttons.add(btn("\u27a4", cat("economy") + "Ödeme", "Bir oyuncuya para gönder", "pay/open"));
         if (plugin.cmdEnabled("rtp") || plugin.getConfig().getBoolean("spawn.enabled", true) || plugin.cmdEnabled("tpa") || !plugin.warps().names().isEmpty())
