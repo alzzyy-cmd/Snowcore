@@ -292,7 +292,7 @@ public final class DialogListener implements Listener {
                     plugin.getConfig().set("menu-icon", mat);
                 }
                 plugin.saveConfig();
-                player.sendMessage(ColorUtil.text("&aIcon set to &f" + mat));
+                player.sendMessage(ColorUtil.text("&aSimge ayarlandı: &f" + mat));
                 if (ctx.equals("home")) plugin.menus().openHomes(player, 0);
                 else menus.openMain(player);
             }
@@ -496,7 +496,7 @@ public final class DialogListener implements Listener {
             try {
                 SettingsStore.Toggle t = SettingsStore.Toggle.valueOf(action.substring("settings/toggle/".length()).toUpperCase(Locale.ROOT));
                 boolean on = plugin.settings().toggle(player.getUniqueId(), t);
-                player.sendMessage(ColorUtil.text("&7" + t.label() + ": " + (on ? "&aON" : "&cOFF")));
+                player.sendMessage(ColorUtil.text("&7" + t.label() + ": " + (on ? "&aAÇIK" : "&cKAPALI")));
                 if (t == SettingsStore.Toggle.HIDE_MOBS) {
                     plugin.mobHide().apply(player);
                 }
@@ -777,7 +777,7 @@ public final class DialogListener implements Listener {
         if (name == null) name = "?";
         long kills = plugin.stats().get(id, StatsStore.Type.KILLS);
         long deaths = plugin.stats().get(id, StatsStore.Type.DEATHS);
-        viewer.sendMessage(ColorUtil.text("&6" + name + " &7Kills: &f" + kills + " &7Ölümler: &f" + deaths));
+        viewer.sendMessage(ColorUtil.text("&6" + name + " &7Öldürme: &f" + kills + " &7Ölüm: &f" + deaths));
     }
 
     private void followFromInput(Player player, DialogResponseView view) {

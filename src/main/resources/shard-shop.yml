@@ -1,0 +1,60 @@
+# SnowNW Shard Pazarı — shard karşılığı ödüller.
+# entries: icon (gösterim), name (isim), lore, price-shards (fiyat), items (MATERIAL:miktar), commands (konsol komutu, %player%)
+enabled: true
+title: "&8&lShard Pazarı"
+
+items:
+  demir-paket:
+    icon: IRON_INGOT
+    name: "&fDemir Paketi"
+    lore:
+      - "&732 demir külçe"
+    price-shards: 50
+    items:
+      - "IRON_INGOT:32"
+  elmas-paket:
+    icon: DIAMOND
+    name: "&bElmas Paketi"
+    lore:
+      - "&78 elmas"
+      - "&7Nadir kaynak!"
+    price-shards: 150
+    items:
+      - "DIAMOND:8"
+  zirh-paket:
+    icon: DIAMOND_CHESTPLATE
+    name: "&6Elmas Zırh Seti"
+    lore:
+      - "&7Tam elmas zırh seti"
+      - "&7Kask, gövdelik, tayt, bot"
+    price-shards: 500
+    items:
+      - "DIAMOND_HELMET:1"
+      - "DIAMOND_CHESTPLATE:1"
+      - "DIAMOND_LEGGINGS:1"
+      - "DIAMOND_BOOTS:1"
+  efsane-paket:
+    icon: NETHERITE_INGOT
+    name: "&dNetherit Paketi"
+    lore:
+      - "&72 netherit külçe"
+      - "&7En üst düzey malzeme"
+    price-shards: 1500
+    items:
+      - "NETHERITE_INGOT:2"
+  para-10k:
+    icon: GOLD_NUGGET
+    name: "&e10.000 Para"
+    lore:
+      - "&7Anında bakiyene işlenir"
+    price-shards: 100
+    commands:
+      - "eco give %player% 10000"
+  kit-baslangic:
+    icon: CHEST
+    name: "&aBaşlangıç Kiti"
+    lore:
+      - "&7Bir kerelik başlangıç seti"
+    price-shards: 1000
+    commands:
+      - "kit claim %player% baslangic"

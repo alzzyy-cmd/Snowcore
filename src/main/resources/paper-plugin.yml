@@ -1,8 +1,8 @@
 name: SnowNWCore
-version: '0.2.3-26.1'
+version: '0.3.0-26.1'
 main: me.snownw.core.SnowNWCorePlugin
 bootstrapper: me.snownw.core.SnowNWBootstrap
 api-version: '26.1'
 author: SnowNW Team
-description: SnowNW Core — Dialog, Friends, TPA, Homes, Economy, RTP, Shards, Regions and player services
+description: SnowNW Core — Diyaloglar, Arkadaşlar, TPA, Evler, Ekonomi, RTP, Shardlar, Alanlar, Pazar, Siparişler, Kafa Ödülleri ve daha fazlası; tamamen Türkçe.
 prefix: SnowNW

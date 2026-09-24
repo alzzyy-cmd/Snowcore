@@ -86,7 +86,7 @@ public final class SnowNWExpansion extends PlaceholderExpansion {
     }
 
     private String onOff(Player player, SettingsStore.Toggle t) {
-        return plugin.settings().get(player.getUniqueId(), t) ? "ON" : "OFF";
+        return plugin.settings().get(player.getUniqueId(), t) ? "AÇIK" : "KAPALI";
     }
 
     private String balance(Player player, boolean formatted) {

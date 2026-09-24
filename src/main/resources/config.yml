@@ -8,7 +8,7 @@ subtitle: "&7SnowNW kontrol merkezi"
 menu-icon: NETHER_STAR
 button-width: 150
 home-button-width: 100
-minimum-protocol: 0
+minimum-protocol: 772
 prefix: "&8[&fSnowNW&7Core&8] &r"
 
 # ============================================================
@@ -58,6 +58,19 @@ commands:
   alan: true
   alanbaltasi: true
   spawnstash: true
+  cuboid: true
+  baltop: true
+  shardmanager: true
+  sell: true
+  sellall: true
+  order: true
+  bounty: true
+  market: true
+  shardshop: true
+  clearlag: true
+  keyall: true
+  doublejump: true
+  team: true
 
 # ============================================================
 # Homes
@@ -65,6 +78,7 @@ commands:
 homes:
   enabled: true
   max-homes: 90
+  default-slots: 2
   homes-per-page: 15
   teleport-delay-seconds: 5
   show-coords-in-dialog: false
@@ -113,6 +127,17 @@ teleport:
 
 # Common teleport delay fallback used by Home/Warp/Spawn/TPA
 teleport-delay-seconds: 5
+
+# Tür bazlı ışınlanma bekleme süreleri (saniye). -1 = devre dışı/varsayılanı kullan
+teleport-delays:
+  home: 5
+  team-home: 5
+  spawn: 3
+  afk: 2
+  tpa: 4
+  warp: 3
+  rtp: 5
+  default: 3
 
 
 # ============================================================
@@ -253,6 +278,10 @@ shards:
   enabled: true
   every-seconds: 600
   amount: 1
+  # Öldürme başına shard (oyuncu öldürme)
+  cells-on-kill: true
+  per-kill: 10
+  kill-cooldown-seconds: 120
 rtp:
   enabled: true
   countdown-seconds: 5
@@ -263,6 +292,12 @@ rtp:
 team:
   enabled: true
   max-members: 8
+  name-min-length: 3
+  name-max-length: 12
+  restricted-names:
+    - "admin"
+    - "staff"
+    - "moderator"
 wand:
   name: "&6SnowNW Wand"
 cuboid:
@@ -299,6 +334,7 @@ rtp-zone:
 spawners:
   enabled: true
   drop-on-break: true
+  require-silk-touch: true
 
 # Market
 shop:
@@ -551,3 +587,104 @@ dialog-theme:
     progress: "&e"
     admin: "&c"
     neutral: "&7"
+
+# ============================================================
+# /sat ve /sathepsi — yetki çarpanı: snownwcore.sellmultiplier.<n>
+# ============================================================
+sell:
+  enabled: true
+  sell-multiplier: true
+
+# ============================================================
+# Sipariş (alım emri) sistemi
+# ============================================================
+orders:
+  enabled: true
+  max-amount: 640
+  max-price-each: 1000000000.0
+  max-per-player: 5
+
+# ============================================================
+# Kafa ödülü sistemi
+# ============================================================
+bounty:
+  enabled: true
+  min-amount: 1000.0
+  announce-place: true
+  notify-target: true
+
+# ============================================================
+# Otomatik varlık temizleme (clear-lag)
+# ============================================================
+clearlag:
+  enabled: true
+  every-minutes: 15
+  animals: true
+  monsters: true
+  dropped-items: true
+  warnings: [10, 3]
+  excluded-worlds:
+    - "afk"
+
+# ============================================================
+# Key-All (otomatik ödül dağıtımı)
+# ============================================================
+key-all:
+  enabled: false
+  every-minutes: 60
+  commands:
+    - "eco give %player% 500"
+  message: "&dKey-All! &7Herkes ödül aldı!"
+
+# ============================================================
+# Çift zıplama
+# ============================================================
+double-jump:
+  enabled: true
+  power: 0.9
+  cooldown-ms: 3000
+
+# ============================================================
+# Hasar ayarlamaları (V2 paritesi)
+# ============================================================
+end-crystal:
+  enabled: true
+  damage: 0.6
+respawn-anchor:
+  enabled: true
+  damage: 0.6
+
+# ============================================================
+# Yeniden doğuş şefkat ekipmanı
+# ============================================================
+respawn-kit:
+  enabled: true
+  items:
+    - "CHAINMAIL_HELMET:1"
+    - "CHAINMAIL_CHESTPLATE:1"
+    - "CHAINMAIL_LEGGINGS:1"
+    - "CHAINMAIL_BOOTS:1"
+
+# ============================================================
+# Otomatik AFK taşıması (spawn alanında hareketsiz kalınca)
+# ============================================================
+afk-system:
+  enabled: true
+  idle-seconds: 300
+  spawn-area: "spawn"
+
+# ============================================================
+# Sohbet formatı (V2 tarzı + hover istatistikleri)
+# ============================================================
+chat-format:
+  enabled: true
+  chat: "%prefix%&f{player} &8» &7{message}"
+  hover-lore:
+    - "&e&l{player}"
+    - "&8&l━━━━━━━━━━"
+    - "&7Öldürme: &f{kills} &8| &7Ölüm: &f{deaths}"
+    - "&7Blok: &f{blocks} &8| &7Yaratık: &f{mobs}"
+    - "&7Oynama: &f{playtime}"
+    - "&7Bakiye: &a{balance} &8| &7Shard: &d{shards}"
+    - "&8&l━━━━━━━━━━"
+    - "&bTıkla: özel mesaj gönder"

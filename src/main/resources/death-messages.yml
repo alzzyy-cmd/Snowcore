@@ -1,0 +1,109 @@
+# SnowNW Core — Ölüm mesajları (Türkçe). {player} = ölen, {killer} = öldüren oyuncu, {mob} = yaratık.
+enabled: true
+
+generic:
+  messages:
+    - "&c{player} hayatını kaybetti."
+    - "&c{player} bu dünyadan göçtü."
+
+fall:
+  messages:
+    - "&c{player} yüksekten düştü."
+    - "&c{player} yere çakıldı."
+
+falling-block:
+  messages:
+    - "&c{player} üzerine düşen bloğun altında kaldı."
+
+lava:
+  messages:
+    - "&c{player} lavda yandı."
+    - "&c{player} lavda yüzmeye çalıştı."
+
+fire:
+  messages:
+    - "&c{player} alevler içinde can verdi."
+    - "&c{player} kül oldu."
+
+drowning:
+  messages:
+    - "&c{player} suda boğuldu."
+
+suffocation:
+  messages:
+    - "&c{player} duvarın içinde nefessiz kaldı."
+
+void:
+  messages:
+    - "&c{player} boşluğa düştü."
+
+explosion:
+  messages:
+    - "&c{player} havaya uçtu."
+    - "&c{player} bombayla tanıştı."
+
+starvation:
+  messages:
+    - "&c{player} açlıktan öldü."
+
+freeze:
+  messages:
+    - "&c{player} donarak öldü."
+
+lightning:
+  messages:
+    - "&c{player} yıldırım çarptı."
+
+cactus:
+  messages:
+    - "&c{player} kaktüse sarıldı."
+
+contact:
+  messages:
+    - "&c{player} dikenli bir yere denk geldi."
+
+magic:
+  messages:
+    - "&c{player} büyüyle öldürüldü."
+
+wither:
+  messages:
+    - "&c{player} solup kurudu."
+
+elytra:
+  messages:
+    - "&c{player} kinetik enerjiye yenik düştü."
+
+dragon:
+  messages:
+    - "&c{player} ejderhanın nefesinde eridi."
+
+thorns:
+  messages:
+    - "&c{player} dikene takıldı."
+
+mob-melee:
+  messages:
+    - "&c{player}, {mob} tarafından paramparça edildi."
+    - "&c{player}, {mob} kurbanı oldu."
+
+mob-ranged:
+  messages:
+    - "&c{player}, {mob} tarafından vuruldu."
+
+# PvP ölümleri: {killer} kullanılabilir
+pvp:
+  ANY:
+    messages:
+      - "&c{player}, {killer} tarafından katledildi."
+      - "&c{killer}, {player}'i yere serdi."
+  MELEE:
+    messages:
+      - "&c{killer}, {player}'i kılıçtan geçirdi."
+      - "&c{player}, {killer}'in kılıcına dayanamadı."
+  RANGED:
+    messages:
+      - "&c{killer}, {player}'i uzaktan indirdi."
+  EXPLOSION:
+    messages:
+      - "&c{killer}, {player}'i kristal patlatarak yok etti."

@@ -400,7 +400,7 @@ public final class DialogMenus {
             case FOLLOWING -> "Takip ettiklerim";
             case FOLLOWERS -> "Takipçiler";
         };
-        buttons.add(btn("&fFilter: &7" + filterLabel, "Değiştirmek için tıkla · Tümü / Arkadaşlar / Takip ettiklerim / Takipçiler", "friends/cyclefilter"));
+        buttons.add(btn("&fFiltre: &7" + filterLabel, "Değiştirmek için tıkla · Tümü / Arkadaşlar / Takip ettiklerim / Takipçiler", "friends/cyclefilter"));
         buttons.add(btn("&fAra", "Oyuncu ara", "friends/followdialog"));
         buttons.add(btn("&a+ Follow", "Oyuncuyu takip et", "friends/followdialog"));
 
@@ -466,7 +466,7 @@ public final class DialogMenus {
         }
         buttons.add(backBtn("friends"));
         show(player, build("&f" + name, List.of(
-                item(Material.PLAYER_HEAD, "&f" + name, "&7Friend options")
+                item(Material.PLAYER_HEAD, "&f" + name, "&7Arkadaş seçenekleri")
         ), buttons, cols("detail-columns", 1)));
     }
 
@@ -475,16 +475,16 @@ public final class DialogMenus {
         if (name == null) name = "?";
         // Personal friend prefs (stored in settings store keys)
         List<ActionButton> buttons = List.of(
-                btn("&fAktivite: &aAçık", "Toggle", "friends/set/" + targetId + "/activity"),
-                btn("&fİşlemler: &aAçık", "Toggle", "friends/set/" + targetId + "/tx"),
-                btn("&fCan Message: &aOn", "Toggle", "friends/set/" + targetId + "/msg"),
-                btn("&fCan Gönder TP: &aOn", "Toggle", "friends/set/" + targetId + "/tpa"),
-                btn("&fAuto-Accept TPs: &cOff", "Toggle", "friends/set/" + targetId + "/tpauto"),
-                btn("&fCan Pay You: &aOn", "Toggle", "friends/set/" + targetId + "/pay"),
+                btn("&fAktivite Görünümü: &aAçık", "Değiştirmek için tıkla", "friends/set/" + targetId + "/activity"),
+                btn("&fİşlem Alabilir: &aAçık", "Değiştirmek için tıkla", "friends/set/" + targetId + "/tx"),
+                btn("&fMesaj Alabilir: &aAçık", "Değiştirmek için tıkla", "friends/set/" + targetId + "/msg"),
+                btn("&fTPA Gönderebilir: &aAçık", "Değiştirmek için tıkla", "friends/set/" + targetId + "/tpa"),
+                btn("&fTPA Otomatik Kabul: &cKapalı", "Değiştirmek için tıkla", "friends/set/" + targetId + "/tpauto"),
+                btn("&fSana Ödeme Yapabilir: &aAçık", "Değiştirmek için tıkla", "friends/set/" + targetId + "/pay"),
                 btn("&7Geri", "Geri", "friends/view/" + targetId)
         );
         show(player, build("&f" + name, List.of(
-                item(Material.COMPARATOR, "&fFriend Ayarlar", "&7Per-friend options")
+                item(Material.COMPARATOR, "&fArkadaş Ayarları", "&7Arkadaşa özel seçenekler")
         ), buttons, cols("detail-columns", 1)));
     }
 
@@ -940,9 +940,9 @@ public final class DialogMenus {
         List<ActionButton> buttons = List.of(
                 btn("&fPara", "En yüksek bakiyeler", "lb/money"),
                 btn("&fShard", "En yüksek shard", "lb/shards"),
-                btn("&fKills", "Oyuncu öldürmeleri", "lb/kills"),
+                btn("&fÖldürme", "Oyuncu öldürmeleri", "lb/kills"),
                 btn("&fÖlümler", "Ölümler", "lb/deaths"),
-                btn("&fPlaytime", "Oynama süresi", "lb/playtime"),
+                btn("&fOynama", "Oynama süresi", "lb/playtime"),
                 btn("&fYerleştirilen Bloklar", "Kırılan bloklar", "lb/placed"),
                 btn("&fKırılan Bloklar", "Kırılan bloklar", "lb/blocks"),
                 btn("&fÖldürülen Yaratıklar", "Öldürülen yaratıklar", "lb/mobs"),
@@ -1233,7 +1233,7 @@ public final class DialogMenus {
                 shown++;
             }
         }
-        if (buttons.isEmpty()) buttons.add(btn("&7No results", "Try another word", "itemsearch/" + ctx));
+        if (buttons.isEmpty()) buttons.add(btn("&7Sonuç yok", "Farklı bir kelime dene", "itemsearch/" + ctx));
         buttons.add(btn("&eAra", "Filtre yaz", "itemsearch/input/" + ctx));
         buttons.add(btn("&8Geri", "Geri", ctx.equals("home") ? "homes/0" : "main"));
 
@@ -1260,7 +1260,7 @@ public final class DialogMenus {
                                 .maxLength(32).width(250).build()))
                         .build())
                 .type(DialogType.confirmation(
-                        btn("&aAra", "Bul items", "itemsearch/do/" + ctx),
+                        btn("&aAra", "Eşya bul", "itemsearch/do/" + ctx),
                         btn("&7İptal", "İptal", "main")
                 )));
         show(player, dialog);

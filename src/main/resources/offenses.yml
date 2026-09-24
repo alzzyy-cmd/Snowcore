@@ -1,7 +1,7 @@
-# Configuration file for preset offenses and escalating punishment tiers.
+# Ön tanımlı suçlar ve kademeli cezalandırma dosyası.
 # Syntax per offense:
 #   <key>:
-#     name: "Display Name"
+#     name: "Görünen Ad"
 #     type: BAN | MUTE | WARN | KICK
 #     wipe: false  # optional, defaults to false
 #     durations:
@@ -17,50 +17,50 @@
 
 offenses:
   advertising:
-    name: "Advertising"
+    name: "Reklam"
     type: BAN
     durations:
       - "30d"
 
   advertising-invite-rewards:
-    name: "Advertising Invite Rewards"
+    name: "Davet Ödülü Reklamı"
     type: BAN
     durations:
       - "30d"
 
   advertising-irl-trade:
-    name: "Advertising IRL Trade"
+    name: "Gerçek Para Takası Reklamı"
     type: BAN
     durations:
       - "3d"
 
   alt-limit:
-    name: "Alt Limit Violation"
+    name: "Çoklu Hesap Limiti İhlali"
     type: BAN
     durations:
       - "perm"
 
   anticheat:
-    name: "Anticheat Detection"
+    name: "Anti-Cheat Tespiti"
     type: BAN
     durations:
       - "30d"
 
   auto-chat-filter:
-    name: "Auto Chat Filter Violation"
+    name: "Sohbet Filtresi İhlali"
     type: MUTE
     durations:
       - "24h"
       - "3d"
 
   ban-evasion:
-    name: "Ban Evasion"
+    name: "Yasaktan Kaçma"
     type: BAN
     durations:
       - "perm"
 
   baritone:
-    name: "Baritone / Automation"
+    name: "Baritone / Otomasyon"
     type: BAN
     durations:
       - "30d"
@@ -68,27 +68,27 @@ offenses:
       - "360d"
 
   botting:
-    name: "Botting"
+    name: "Bot Kullanımı"
     type: BAN
     durations:
       - "perm"
 
   bug-abuse:
-    name: "Bug Abuse"
+    name: "Hata/Bug Kötüye Kullanımı"
     type: BAN
     durations:
       - "14d"
       - "perm"
 
   entity-radar:
-    name: "Entity Radar"
+    name: "Varlık Radarı Hilesi"
     type: BAN
     durations:
       - "3d"
       - "30d"
 
   esp:
-    name: "ESP Hacks"
+    name: "ESP Hilesi"
     type: BAN
     durations:
       - "30d"
@@ -96,41 +96,41 @@ offenses:
       - "360d"
 
   macros:
-    name: "Macros"
+    name: "Makro Kullanımı"
     type: BAN
     durations:
       - "7d"
       - "40d"
 
   major-inappropriate-build:
-    name: "Major Inappropriate Build"
+    name: "Ağır Uygunsuz Yapı"
     type: BAN
     durations:
       - "7d"
       - "30d"
 
   major-language:
-    name: "Major Language Violation"
+    name: "Ağır Dil İhlali"
     type: MUTE
     durations:
       - "24h"
       - "7d"
 
   make-a-ticket:
-    name: "Ticket Abuse / Ban Appeal Required"
+    name: "İtiraz Suistimali / Ban İtirazı Gerekli"
     type: BAN
     durations:
       - "perm"
 
   chat-capslock:
-    name: "Chat Caps Lock Spam"
+    name: "Caps Lock Spamı"
     type: MUTE
     durations:
       - "24h"
       - "3d"
 
   chat-death-threats:
-    name: "Chat Death Threats"
+    name: "Ölüm Tehdidi"
     type: BAN
     durations:
       - "24h"
@@ -138,14 +138,14 @@ offenses:
       - "perm"
 
   chat-flooding:
-    name: "Chat Flooding"
+    name: "Sohbet Flooding"
     type: MUTE
     durations:
       - "24h"
       - "3d"
 
   chat-harassment:
-    name: "Chat Harassment"
+    name: "Sohbette Taciz"
     type: MUTE
     durations:
       - "24h"
@@ -155,7 +155,7 @@ offenses:
       - "perm"
 
   chat-hate:
-    name: "Chat Hate Speech"
+    name: "Nefret Söylemi"
     type: MUTE
     durations:
       - "0s" # Warning
@@ -165,14 +165,14 @@ offenses:
       - "perm"
 
   chat-racism:
-    name: "Chat Racism"
+    name: "Sohbette Irkçılık"
     type: BAN
     durations:
       - "30d"
       - "perm"
 
   chat-spam:
-    name: "Chat Spam"
+    name: "Sohbet Spamı"
     type: MUTE
     durations:
       - "0s" # Warning
@@ -180,7 +180,7 @@ offenses:
       - "30d"
 
   chat-toxicity:
-    name: "Chat Toxicity"
+    name: "Sohbette Toksisite"
     type: MUTE
     durations:
       - "24h"
@@ -189,7 +189,7 @@ offenses:
       - "perm"
 
   cheating:
-    name: "Cheating / Unfair Advantage"
+    name: "Hile / Haksız Avantaj"
     type: BAN
     durations:
       - "14d"
@@ -197,20 +197,20 @@ offenses:
       - "perm"
 
   compromised-account:
-    name: "Compromised Account"
+    name: "Ele Geçirilmiş Hesap"
     type: BAN
     durations:
       - "perm"
 
   macros-skripts:
-    name: "Macros / Skripts"
+    name: "Makro / Script Kullanımı"
     type: BAN
     durations:
       - "7d"
       - "40d"
 
   autopunish:
-    name: "Auto Punish Trigger"
+    name: "Otomatik Ceza Tetikleyici"
     type: BAN
     durations:
       - "14d"
@@ -218,21 +218,21 @@ offenses:
       - "perm"
 
   ban-evading:
-    name: "Ban Evading"
+    name: "Yasaktan Kaçınma"
     type: BAN
     durations:
       - "30d"
       - "perm"
 
   cross-trading:
-    name: "Cross Trading"
+    name: "Sunucular Arası Takas"
     type: BAN
     durations:
       - "30d"
       - "perm"
 
   doxing:
-    name: "Doxing / PII Leak"
+    name: "Kişisel Bilgi İfşası"
     type: BAN
     durations:
       - "24h"
@@ -240,27 +240,27 @@ offenses:
       - "perm"
 
   duping:
-    name: "Item Duping"
+    name: "Eşya Kopyalama"
     type: BAN
     durations:
       - "3d"
       - "perm"
 
   external-gambling:
-    name: "External Gambling"
+    name: "Dış Platform Kumarı"
     type: BAN
     durations:
       - "14d"
 
   gambling-ownership:
-    name: "Gambling Ownership"
+    name: "Kumar İşletmeciliği"
     type: BAN
     durations:
       - "3d"
       - "30d"
 
   hacking:
-    name: "Hacking"
+    name: "Hile Kullanımı"
     type: BAN
     durations:
       - "14d"
@@ -268,33 +268,33 @@ offenses:
       - "perm"
 
   radar-minimap:
-    name: "Radar / Minimap Hacks"
+    name: "Radar / Minimap Hilesi"
     type: BAN
     durations:
       - "3d"
       - "30d"
 
   ratting:
-    name: "Ratting / Malware"
+    name: "RAT / Zararlı Yazılım"
     type: BAN
     durations:
       - "perm"
 
   soundboard-proximity:
-    name: "Soundboard Proximity Abuse"
+    name: "Yakın Mesafe Ses Panosu Suistimali"
     type: MUTE
     durations:
       - "30d"
 
   spamming-chat:
-    name: "Spamming Chat"
+    name: "Sohbette Spam"
     type: MUTE
     durations:
       - "24h"
       - "3d"
 
   streaming-advertising-rat-clients:
-    name: "Streaming/Advertising Rat Clients"
+    name: "RAT İstemcisi Tanıtımı/Yayını"
     type: BAN
     durations:
       - "14d"
@@ -302,28 +302,28 @@ offenses:
       - "180d"
 
   streaming-cheat-client-pvp:
-    name: "Streaming Cheat Client PVP"
+    name: "Hileli İstemciyle PvP Yayını"
     type: BAN
     durations:
       - "7d"
       - "30d"
 
   streaming-just-hack-client-no-advantage:
-    name: "Streaming Hack Client No Advantage"
+    name: "Hileli İstemci Yayını (Avantajsız)"
     type: BAN
     durations:
       - "14d"
       - "60d"
 
   suicide-encouragement-proximity:
-    name: "Suicide Encouragement Proximity"
+    name: "İntihar Teşviki (Yakın Mesafe)"
     type: BAN
     durations:
       - "30d"
       - "perm"
 
   toxicity-hate-harassment-in-chat-sign:
-    name: "Toxicity/Hate/Harassment in Chat/Sign"
+    name: "Sohbet/Tabelada Toksisite/Nefret/Taciz"
     type: MUTE
     durations:
       - "24h"
@@ -340,93 +340,93 @@ offenses:
       - "360d"
 
   bot-owner:
-    name: "Bot Owner"
+    name: "Bot Sahibi"
     type: BAN
     durations:
       - "perm"
 
   health-indicators:
-    name: "Health Indicators Abuse"
+    name: "Can Göstergesi Suistimali"
     type: BAN
     durations:
       - "7d"
       - "30d"
 
   mute-evasion:
-    name: "Mute Evasion"
+    name: "Susturmadan Kaçma"
     type: MUTE
     durations:
       - "7d"
       - "30d"
 
   inappropriate-builds:
-    name: "Inappropriate Builds"
+    name: "Uygunsuz Yapılar"
     type: BAN
     durations:
       - "7d"
       - "30d"
 
   inappropriate-language:
-    name: "Inappropriate Language"
+    name: "Uygunsuz Dil"
     type: MUTE
     durations:
       - "30d"
 
   inappropriate-proximity:
-    name: "Inappropriate Proximity Chat"
+    name: "Uygunsuz Yakın Mesafe Sohbeti"
     type: MUTE
     durations:
       - "30d"
 
   inappropriate-skin:
-    name: "Inappropriate Skin"
+    name: "Uygunsuz Skin"
     type: BAN
     durations:
       - "1d"
       - "7d"
 
   invite-rewards:
-    name: "Invite Rewards Exploitation"
+    name: "Davet Ödülü İstismarı"
     type: BAN
     durations:
       - "14d"
 
   invite-rewards-ownership:
-    name: "Invite Rewards Ownership Abuse"
+    name: "Davet Ödülü Sahipliği Suistimali"
     type: BAN
     durations:
       - "30d"
 
   racism-in-chat-sign:
-    name: "Racism in Chat/Sign"
+    name: "Sohbet/Tabelada Irkçılık"
     type: BAN
     durations:
       - "30d"
       - "perm"
 
   proximity-racism:
-    name: "Proximity Racism"
+    name: "Yakın Mesafe Irkçılık"
     type: BAN
     durations:
       - "30d"
       - "perm"
 
   proximity-toxicity-hate-harassment:
-    name: "Proximity Toxicity/Hate/Harassment"
+    name: "Yakın Mesafe Toksisite/Nefret/Taciz"
     type: MUTE
     durations:
       - "30d"
       - "perm"
 
   lying-to-staff:
-    name: "Lying to Staff"
+    name: "Yetkililere Yalan Söyleme"
     type: BAN
     durations:
       - "7d"
       - "30d"
 
   irltrade-booster:
-    name: "IRL Trade / Booster Abuse"
+    name: "Gerçek Takas / Booster Suistimali"
     type: BAN
     durations:
       - "3d"
@@ -434,14 +434,14 @@ offenses:
       - "180d"
 
   irl-trading-ownership:
-    name: "IRL Trading Ownership"
+    name: "Gerçek Takas İşletmeciliği"
     type: BAN
     durations:
       - "720d"
       - "perm"
 
   teaming-with-cheater:
-    name: "Teaming with Cheater"
+    name: "Hileciyle İş Birliği"
     type: BAN
     durations:
       - "perm"

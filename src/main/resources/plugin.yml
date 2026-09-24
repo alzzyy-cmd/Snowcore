@@ -1,11 +1,55 @@
 name: SnowNWCore
-version: '0.2.3-26.1'
+version: '0.3.0-26.1'
 main: me.snownw.core.SnowNWCorePlugin
 api-version: '26.1'
 author: SnowNW Team
 softdepend: [PlaceholderAPI, Vault, LuckPerms]
 
 permissions:
+  snownwcore.admin:
+    description: Tüm yönetici yetkileri
+    default: op
+    children:
+      snownwcore.admin.bypassfreeze: true
+      snownwcore.admin.bypassafk: true
+      snownwcore.admin.clearlag: true
+      snownwcore.admin.keyall: true
+      snownwcore.admin.order: true
+      snownwcore.admin.bounty: true
+      snownwcore.admin.nodelay: true
+  snownwcore.admin.bypassfreeze:
+    description: Dondurma etkisinden muaf olma / donmuş komutları kullanma
+    default: op
+  snownwcore.admin.bypassafk:
+    description: Otomatik AFK taşımasından muaf olma
+    default: op
+  snownwcore.admin.clearlag:
+    description: /lagtemizle komutu
+    default: op
+  snownwcore.admin.keyall:
+    description: /keyall komutu
+    default: op
+  snownwcore.admin.order:
+    description: Başkasının siparişini iptal edebilme
+    default: op
+  snownwcore.admin.bounty:
+    description: Kafa ödülünü kaldırabilme
+    default: op
+  snownwcore.admin.nodelay:
+    description: Işınlanma bekleme sürelerinden muaf olma
+    default: op
+  snownwcore.doublejump:
+    description: Çift zıplama özelliğini kullanma
+    default: true
+  snownwcore.home:
+    description: En az bir ev yuvası
+    default: true
+  snownwcore.spawner.break:
+    description: Spawner kırabilme (ipeksi dokunuş gerekli)
+    default: true
+  snownwcore.area:
+    description: Alan baltası ve alan komutları
+    default: op
   snownwcore.amethysttool:
     description: Amethyst yardımcı eşyalarını yönetme
     default: op

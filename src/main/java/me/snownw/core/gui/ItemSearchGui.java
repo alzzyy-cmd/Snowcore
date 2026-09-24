@@ -104,7 +104,7 @@ public final class ItemSearchGui implements InventoryHolder {
             inv.setItem(i, item);
         }
         inv.setItem(45, ctrl(Material.ARROW, "&aPrevious"));
-        inv.setItem(49, ctrl(Material.COMPASS, "&eFilter: &f" + (query.isEmpty() ? "*" : query)
+        inv.setItem(49, ctrl(Material.COMPASS, "&eFiltre: &f" + (query.isEmpty() ? "*" : query)
                 + "\n&7/itemsearch <name>"));
         inv.setItem(53, ctrl(Material.ARROW, "&aNext"));
     }
