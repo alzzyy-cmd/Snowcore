@@ -107,7 +107,14 @@ public final class DialogListener implements Listener {
             case "main" -> menus.openMain(player);
             case "pay/open" -> menus.openPayTargetDialog(player);
             case "kits" -> menus.openKits(player);
-            case "team/menu" -> player.sendMessage(ColorUtil.text("&cTakım sistemi kaldırıldı."));
+            case "team/menu" -> menus.openTeamMenu(player);
+            case "orders" -> menus.openOrders(player);
+            case "order/mine" -> menus.openOrderMine(player);
+            case "order/create" -> menus.openOrderCreate(player);
+            case "bounty" -> menus.openBounties(player);
+            case "bounty/place" -> menus.openBountyPlace(player);
+            case "market" -> { player.closeDialog(); plugin.shopGui().openCategories(player); }
+            case "shardshop" -> { player.closeDialog(); plugin.shardShopGui().open(player, 0); }
             case "rtp/menu", "rtp/go" -> menus.openRtpMenu(player);
             case "teleport/menu" -> menus.openTeleportMenu(player);
             case "teleport/warps" -> menus.openWarpMenu(player);
@@ -304,6 +311,66 @@ public final class DialogListener implements Listener {
             return;
         }
         if (action.equals("ah/mine")) { menus.openAuctionMine(player); return; }
+
+        // ====== SIPARİŞLER ======
+        if (action.equals("order/create-confirm")) {
+            String matRaw = view != null ? view.getText("material") : "";
+            String amountRaw = view != null ? view.getText("amount") : "";
+            String priceRaw = view != null ? view.getText("price") : "";
+            String err;
+            try {
+                org.bukkit.Material mat = org.bukkit.Material.matchMaterial(matRaw == null ? "" : matRaw.trim().toUpperCase(Locale.ROOT));
+                if (mat == null || !mat.isItem()) { player.sendMessage(ColorUtil.text(plugin.messages().get("order-invalid-material"))); menus.openOrderCreate(player); return; }
+                int amount = Integer.parseInt(amountRaw == null ? "" : amountRaw.trim());
+                double price = Double.parseDouble((priceRaw == null ? "" : priceRaw.trim()).replace(',', '.'));
+                err = plugin.orders().create(player, mat, amount, price);
+            } catch (NumberFormatException ex) {
+                err = plugin.messages().get("order-invalid-amount");
+            }
+            if (err != null) player.sendMessage(ColorUtil.text(err));
+            menus.openOrders(player);
+            return;
+        }
+        if (action.startsWith("order/fill/")) {
+            try {
+                int id = Integer.parseInt(action.substring("order/fill/".length()));
+                String err = plugin.orders().fill(player, id);
+                if (err != null) player.sendMessage(ColorUtil.text(err));
+            } catch (NumberFormatException ignored) {}
+            menus.openOrders(player);
+            return;
+        }
+        if (action.startsWith("order/cancel/")) {
+            try {
+                int id = Integer.parseInt(action.substring("order/cancel/".length()));
+                String err = plugin.orders().cancel(player, id);
+                if (err != null) player.sendMessage(ColorUtil.text(err));
+            } catch (NumberFormatException ignored) {}
+            menus.openOrderMine(player);
+            return;
+        }
+
+        // ====== KAFA ÖDÜLLERİ ======
+        if (action.equals("bounty/place-confirm")) {
+            String nameRaw = view != null ? view.getText("name") : "";
+            String priceRaw = view != null ? view.getText("price") : "";
+            Player target = Bukkit.getPlayerExact(nameRaw == null ? "" : nameRaw.trim());
+            if (target == null) {
+                player.sendMessage(ColorUtil.text(plugin.messages().get("player-offline")));
+                menus.openBountyPlace(player);
+                return;
+            }
+            try {
+                double price = Double.parseDouble((priceRaw == null ? "" : priceRaw.trim()).replace(',', '.'));
+                String err = plugin.bounty().place(player, target, price);
+                if (err != null) player.sendMessage(ColorUtil.text(err));
+            } catch (NumberFormatException ex) {
+                player.sendMessage(ColorUtil.text(plugin.messages().get("pay-money-invalid")));
+            }
+            menus.openBounties(player);
+            return;
+        }
+
         if (action.startsWith("ah/view/")) { try { menus.openAuctionView(player, Long.parseLong(action.substring(8))); } catch (Exception ignored) {} return; }
         if (action.startsWith("ah/buy/")) {
             try { long id = Long.parseLong(action.substring(7)); if (plugin.auction().buy(player, id)) player.sendMessage(ColorUtil.text("&aSatın alma tamamlandı.")); else player.sendMessage(ColorUtil.text("&cSatın alma başarısız. Bakiye veya envanterini kontrol et.")); } catch (Exception ignored) {}
@@ -591,7 +658,7 @@ public final class DialogListener implements Listener {
             return;
         }
         if (action.equals("lb/shards")) {
-            plugin.menus().openLeaderboard(player, StatsStore.Type.KILLS);
+            plugin.menus().openShardLeaderboard(player);
             return;
         }
 

@@ -53,8 +53,28 @@ public final class StatsListener implements Listener {
         Player killer = victim.getKiller();
         if (killer != null) {
             plugin.stats().add(killer.getUniqueId(), StatsStore.Type.KILLS, 1);
+            // Kafa ödülü: hedefin başına ödül varsa katil alır
+            if (plugin.bounty() != null) {
+                try { plugin.bounty().claim(killer, victim); } catch (Throwable ignored) {}
+            }
+            // Öldürme başına shard (cooldown ile spam korumalı)
+            if (plugin.getConfig().getBoolean("shards.cells-on-kill", true) && plugin.shards() != null) {
+                long perKill = plugin.getConfig().getLong("shards.per-kill", 10);
+                long cooldownSec = plugin.getConfig().getLong("shards.kill-cooldown-seconds", 120);
+                String key = killer.getUniqueId() + ":" + victim.getUniqueId();
+                long now = System.currentTimeMillis();
+                Long last = SHARD_COOLDOWNS.get(key);
+                if (last == null || now - last >= cooldownSec * 1000L) {
+                    SHARD_COOLDOWNS.put(key, now);
+                    plugin.shards().add(killer.getUniqueId(), perKill);
+                    killer.sendActionBar(me.snownw.core.util.ColorUtil.text(plugin.messages().get("shard-kill-gain")
+                            .replace("{amount}", String.valueOf(perKill))));
+                }
+            }
         }
     }
+
+    private static final java.util.Map<String, Long> SHARD_COOLDOWNS = new java.util.concurrent.ConcurrentHashMap<>();
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onBreak(BlockBreakEvent e) {

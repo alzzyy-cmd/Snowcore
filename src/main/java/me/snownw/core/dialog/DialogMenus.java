@@ -155,6 +155,115 @@ public final class DialogMenus {
     }
 
 
+    // ===================== SİPARİŞLER (ORDERS) =====================
+    public void openOrders(Player player) {
+        if (!plugin.orders().enabled()) { player.sendMessage(ColorUtil.text(plugin.messages().get("disabled"))); return; }
+        List<Map.Entry<Material, Double>> ignored = null;
+        List<DialogBody> body = new ArrayList<>();
+        body.add(item(Material.LECTERN, "&6Siparişler", "&7Oyuncuların toplamak istediği eşyalar.\n&7Elinde varsa Sat'a bas ve anında paranı al."));
+        var orders = plugin.orders().all();
+        int shown = 0;
+        for (var o : orders) {
+            if (shown++ >= 24) break;
+            body.add(item(o.material,
+                    "&f" + prettyMaterial(o.material) + " &7x" + o.remaining,
+                    "&7Sahip: &f" + o.ownerName + "\n&7Birim fiyat: &a" + plugin.economy().format(o.priceEach)
+                            + "\n&7Kalan: &f" + o.remaining + "/" + o.totalAmount + "\n&8#" + o.id));
+        }
+        List<ActionButton> buttons = new ArrayList<>();
+        for (var o : orders) {
+            if (o.owner.equals(player.getUniqueId())) continue;
+            buttons.add(btn("&aSat #" + o.id, "Elindeki " + o.material.name().toLowerCase(java.util.Locale.ROOT) + " eşyasını bu siparişe sat", "order/fill/" + o.id));
+        }
+        buttons.add(btn("&e＋ Sipariş Oluştur", "Yeni alım emri oluştur (para peşin çekilir)", "order/create"));
+        buttons.add(btn("&bSiparişlerim", "Kendi siparişlerini yönet", "order/mine"));
+        buttons.add(backBtn("main"));
+        show(player, build("&6Siparişler", body, buttons, cols("list-columns", 2)));
+    }
+
+    public void openOrderCreate(Player player) {
+        Dialog dialog = Dialog.create(b -> b.empty()
+                .base(DialogBase.builder(ColorUtil.text("&6Yeni Sipariş"))
+                        .canCloseWithEscape(true).afterAction(DialogBase.DialogAfterAction.NONE)
+                        .body(List.of(item(Material.WRITABLE_BOOK, "&6Yeni Sipariş",
+                                "&7Eşya adı İngilizce kod olarak girilir.\n&7Örn: DIAMOND, OAK_LOG, ANCIENT_DEBRIS\n&7Toplam bedel peşin çekilir.")))
+                        .inputs(List.of(
+                                DialogInput.text("material", Component.text("Eşya kodu")).maxLength(40).width(200).build(),
+                                DialogInput.text("amount", Component.text("Adet")).maxLength(8).width(120).build(),
+                                DialogInput.text("price", Component.text("Birim fiyat")).maxLength(16).width(160).build()
+                        )).build())
+                .type(DialogType.confirmation(
+                        btn("&aSiparişi Oluştur", "Toplam ücreti öde ve siparişi yayınla", "order/create-confirm"),
+                        btn("&7İptal", "Geri", "orders")
+                )));
+        show(player, dialog);
+    }
+
+    public void openOrderMine(Player player) {
+        List<DialogBody> body = new ArrayList<>();
+        body.add(item(Material.BARREL, "&bSiparişlerim", "&7İptal edince kalan ödeme iade edilir."));
+        List<ActionButton> buttons = new ArrayList<>();
+        for (var o : plugin.orders().mine(player.getUniqueId())) {
+            body.add(item(o.material, "&f" + prettyMaterial(o.material) + " &7#" + o.id,
+                    "&7Kalan: &f" + o.remaining + "/" + o.totalAmount + "\n&7Birim: &a" + plugin.economy().format(o.priceEach)));
+            buttons.add(btn("&cİptal #" + o.id, "Kalan bedeli geri al", "order/cancel/" + o.id));
+        }
+        buttons.add(backBtn("orders"));
+        show(player, build("&bSiparişlerim", body, buttons, cols("list-columns", 2)));
+    }
+
+    // ===================== KAFA ÖDÜLLERİ (BOUNTY) =====================
+    public void openBounties(Player player) {
+        if (!plugin.bounty().enabled()) { player.sendMessage(ColorUtil.text(plugin.messages().get("disabled"))); return; }
+        List<DialogBody> body = new ArrayList<>();
+        body.add(item(Material.SKELETON_SKULL, "&cKafa Ödülleri", "&7Başına ödül konan oyuncular.\n&7Hedefi öldüren ödülün hepsini alır."));
+        var all = new ArrayList<>(plugin.bounty().all().entrySet());
+        all.sort((a, b) -> Double.compare(b.getValue(), a.getValue()));
+        int shown = 0;
+        for (var e : all) {
+            if (shown++ >= 24) break;
+            String n = Bukkit.getOfflinePlayer(e.getKey()).getName();
+            body.add(item(Material.PLAYER_HEAD, "&f" + (n == null ? "?" : n),
+                    "&cÖdül: &f" + plugin.economy().format(e.getValue())));
+        }
+        List<ActionButton> buttons = new ArrayList<>();
+        buttons.add(btn("&c＋ Ödül Koy", "Bir oyuncunun başına ödül koy", "bounty/place"));
+        buttons.add(backBtn("main"));
+        show(player, build("&cKafa Ödülleri", body, buttons, cols("list-columns", 3)));
+    }
+
+    public void openBountyPlace(Player player) {
+        Dialog dialog = Dialog.create(b -> b.empty()
+                .base(DialogBase.builder(ColorUtil.text("&cÖdül Koy"))
+                        .canCloseWithEscape(true).afterAction(DialogBase.DialogAfterAction.NONE)
+                        .body(List.of(item(Material.TARGET, "&cÖdül Koy",
+                                "&7Para peşin çekilir. Hedefi herhangi bir oyuncu\n&7öldürdüğünde ödülü o alır.")))
+                        .inputs(List.of(
+                                DialogInput.text("name", Component.text("Oyuncu adı")).maxLength(16).width(160).build(),
+                                DialogInput.text("price", Component.text("Tutar")).maxLength(16).width(160).build()
+                        )).build())
+                .type(DialogType.confirmation(
+                        btn("&cÖdülü Koy", "Tutarı öde ve ödülü yayınla", "bounty/place-confirm"),
+                        btn("&7İptal", "Geri", "bounty")
+                )));
+        show(player, dialog);
+    }
+
+    // ===================== SHARD SIRALAMASI =====================
+    public void openShardLeaderboard(Player player) {
+        List<DialogBody> body = new ArrayList<>();
+        body.add(item(Material.AMETHYST_SHARD, "&dShard Sıralaması", "&7En çok shardı olan ilk 10 oyuncu"));
+        var top = plugin.shards().top(10);
+        int rank = 1;
+        for (var e : top) {
+            String n = Bukkit.getOfflinePlayer(e.getKey()).getName();
+            body.add(item(Material.AMETHYST_SHARD, "&d#" + rank + " &f" + (n == null ? "?" : n),
+                    "&7Shard: &d" + e.getValue()));
+            rank++;
+        }
+        show(player, build("&dShard Sıralaması", body, List.of(backBtn("lb")), cols("list-columns", 2)));
+    }
+
     // ===================== WORTH (DIALOG) =====================
     public void openWorth(Player player) {
         List<Map.Entry<Material, Double>> entries = new ArrayList<>(plugin.worth().allPrices().entrySet());
@@ -609,13 +718,12 @@ public final class DialogMenus {
         }
         String id = target.getUniqueId().toString();
         List<ActionButton> buttons = new ArrayList<>();
-        buttons.add(btn("&a$ 1", "1 para gönder", "pay/send/" + id + "/1"));
-        buttons.add(btn("&a$ 2", "2 para gönder", "pay/send/" + id + "/2"));
-        buttons.add(btn("&a$ 29", "29 para gönder", "pay/send/" + id + "/29"));
-        buttons.add(btn("&a$ 100", "100 para gönder", "pay/send/" + id + "/100"));
-        buttons.add(btn("&a$ 150", "150 para gönder", "pay/send/" + id + "/150"));
-        buttons.add(btn("&a$ 200", "200 para gönder", "pay/send/" + id + "/200"));
-        buttons.add(btn("&a$ 1K", "1000 para gönder", "pay/send/" + id + "/1000"));
+        buttons.add(btn("&a100", "100 para gönder", "pay/send/" + id + "/100"));
+        buttons.add(btn("&a1.000", "1K para gönder", "pay/send/" + id + "/1000"));
+        buttons.add(btn("&a10.000", "10K para gönder", "pay/send/" + id + "/10000"));
+        buttons.add(btn("&a100.000", "100K para gönder", "pay/send/" + id + "/100000"));
+        buttons.add(btn("&a1.000.000", "1M para gönder", "pay/send/" + id + "/1000000"));
+        buttons.add(btn("&a10.000.000", "10M para gönder", "pay/send/" + id + "/10000000"));
         buttons.add(btn("&fÖzel Miktar", "Kendi miktarını gir", "pay/custom/" + id));
         buttons.add(backBtn("friends"));
         show(player, build("&d&lÖde · &f" + target.getName(), List.of(

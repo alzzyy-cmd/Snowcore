@@ -57,20 +57,22 @@ public final class ChatSocialListener implements Listener {
     @EventHandler(priority = EventPriority.HIGH)
     public void onDeath(PlayerDeathEvent e) {
         Player dead = e.getEntity();
-        // cancel default broadcast – send ranged
+        // Vanilla yayınını kaldır; mesajı mesafe + ayar sınırlı yayınla
         e.deathMessage(null);
         if (!plugin.getConfig().getBoolean("chat.death-messages-enabled", true)) return;
         if (!plugin.settings().get(dead.getUniqueId(), SettingsStore.Toggle.DEATH_MESSAGES)) return;
 
-        String text = plugin.messages().plain("death")
-                .replace("{player}", dead.getName());
+        // Ölüm nedenine göre Türkçe mesaj (death-messages.yml); kapalıysa genel mesaj
+        String text = null;
+        if (plugin.deathMessages() != null) text = plugin.deathMessages().messageFor(dead);
+        if (text == null) text = plugin.messages().plain("death").replace("{player}", dead.getName());
+        final String finalText = text;
         int chunks = plugin.getConfig().getInt("chat.death-message-chunks", 10);
-        double dist = chunks * 16.0;
-        double distSq = dist * dist;
+        double distSq = chunks * 16.0 * chunks * 16.0;
         for (Player p : dead.getWorld().getPlayers()) {
             if (!plugin.socialAudienceAllows(dead.getUniqueId(), p.getUniqueId(), SettingsStore.Toggle.DEATH_MESSAGES)) continue;
             if (p.getLocation().distanceSquared(dead.getLocation()) <= distSq) {
-                p.sendMessage(ColorUtil.text(text));
+                p.sendMessage(ColorUtil.text(finalText));
             }
         }
     }

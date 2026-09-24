@@ -71,8 +71,8 @@ public final class ClassicMenus {
     }
 
     public void openAyarlar(Player player) {
-        if (!plugin.getConfig().getBoolean("menus.classic-enabled", true)) {
-            DialogMenus.openAyarlar(plugin, player);
+        if (!plugin.getConfig().getBoolean("menus.classic-enabled", true) && plugin.menus() != null) {
+            plugin.menus().openAyarlar(player);
             return;
         }
         Holder h = new Holder(Kind.SETTINGS, null, 27, ColorUtil.text("&8Ayarlar"));

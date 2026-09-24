@@ -392,11 +392,143 @@ public final class CoreCommands implements CommandExecutor, TabCompleter {
                 teamCmd(player, args);
                 yield true;
             }
+            case "cuboid", "kup", "küp" -> { cuboidCmd(player, args); yield true; }
+            case "baltop", "zenginler", "enler" -> { baltopCmd(player); yield true; }
+            case "shardmanager", "shardyonetim", "shardyönetim" -> { shardManager(player, args); yield true; }
+            case "sell", "sat" -> { plugin.sell().sellHand(player); yield true; }
+            case "sellall", "sathepsi", "satall" -> { plugin.sell().sellAll(player); yield true; }
+            case "order", "orders", "siparis", "sipariş" -> {
+                if (args.length == 0) {
+                    if (plugin.menus().supports(player)) plugin.menus().openOrders(player);
+                    else player.sendMessage(ColorUtil.text(plugin.messages().get("order-usage")));
+                } else {
+                    orderCmd(player, args);
+                }
+                yield true;
+            }
+            case "bounty", "bounties", "odul", "ödül" -> {
+                if (args.length == 0) {
+                    if (plugin.menus().supports(player)) plugin.menus().openBounties(player);
+                    else bountyListCmd(player);
+                } else {
+                    bountyCmd(player, args);
+                }
+                yield true;
+            }
+            case "market", "shop", "magaza", "mağaza" -> { plugin.shopGui().openCategories(player); yield true; }
+            case "shardshop", "shardmarket", "shardpazari", "shardpazarı" -> { plugin.shardShopGui().open(player, 0); yield true; }
+            case "clearlag", "lagtemizle", "lagtemizlik" -> {
+                if (!player.hasPermission("snownwcore.admin.clearlag")) {
+                    player.sendMessage(ColorUtil.text(plugin.messages().get("no-permission")));
+                    yield true;
+                }
+                int removed = plugin.clearLag().clearNow();
+                player.sendMessage(ColorUtil.text(plugin.messages().get("clearlag-done").replace("{count}", String.valueOf(removed))));
+                yield true;
+            }
+            case "keyall", "anahtarver" -> {
+                if (!player.hasPermission("snownwcore.admin.keyall")) {
+                    player.sendMessage(ColorUtil.text(plugin.messages().get("no-permission")));
+                    yield true;
+                }
+                plugin.keyAll().executeAll();
+                yield true;
+            }
+            case "doublejump", "ciftzipla", "çiftzıpla", "dj" -> {
+                if (!player.hasPermission("snownwcore.doublejump")) {
+                    player.sendMessage(ColorUtil.text(plugin.messages().get("no-permission")));
+                    yield true;
+                }
+                if (!plugin.getConfig().getBoolean("double-jump.enabled", true)) {
+                    player.sendMessage(ColorUtil.text(plugin.messages().get("disabled")));
+                    yield true;
+                }
+                boolean djOn = plugin.doubleJump().toggle(player);
+                player.sendMessage(ColorUtil.text(plugin.messages().get(djOn ? "doublejump-on" : "doublejump-off")));
+                yield true;
+            }
             default -> false;
         };
     }
 
 
+
+    /** /siparis olustur <esya> <adet> <birimfiyat> | iptal <id> | sat <id> | benim */
+    private void orderCmd(Player player, String[] args) {
+        if (!plugin.orders().enabled()) { player.sendMessage(ColorUtil.text(plugin.messages().get("disabled"))); return; }
+        String sub = args[0].toLowerCase(Locale.ROOT);
+        switch (sub) {
+            case "olustur", "oluştur", "yeni", "create" -> {
+                if (args.length < 4) { player.sendMessage(ColorUtil.text(plugin.messages().get("order-usage"))); return; }
+                org.bukkit.Material mat = org.bukkit.Material.matchMaterial(args[1].toUpperCase(Locale.ROOT));
+                if (mat == null || !mat.isItem()) { player.sendMessage(ColorUtil.text(plugin.messages().get("order-invalid-material"))); return; }
+                try {
+                    int amount = Integer.parseInt(args[2]);
+                    double price = Double.parseDouble(args[3].replace(',', '.'));
+                    String err = plugin.orders().create(player, mat, amount, price);
+                    if (err != null) player.sendMessage(ColorUtil.text(err));
+                } catch (NumberFormatException e) { player.sendMessage(ColorUtil.text(plugin.messages().get("order-invalid-amount"))); }
+            }
+            case "iptal", "cancel" -> {
+                if (args.length < 2) { player.sendMessage(ColorUtil.text("&7/siparis iptal <id>")); return; }
+                try {
+                    String err = plugin.orders().cancel(player, Integer.parseInt(args[1]));
+                    if (err != null) player.sendMessage(ColorUtil.text(err));
+                } catch (NumberFormatException e) { player.sendMessage(ColorUtil.text("&cGeçerli bir id gir: /siparis iptal <id>")); }
+            }
+            case "sat", "fill", "doldur" -> {
+                if (args.length < 2) { player.sendMessage(ColorUtil.text("&7/siparis sat <id>")); return; }
+                try {
+                    String err = plugin.orders().fill(player, Integer.parseInt(args[1]));
+                    if (err != null) player.sendMessage(ColorUtil.text(err));
+                } catch (NumberFormatException e) { player.sendMessage(ColorUtil.text("&cGeçerli bir id gir: /siparis sat <id>")); }
+            }
+            case "benim", "mine", "listem" -> {
+                var mine = plugin.orders().mine(player.getUniqueId());
+                if (mine.isEmpty()) { player.sendMessage(ColorUtil.text("&7Açık siparişin yok. Oluştur: &f/siparis olustur <esya> <adet> <birimfiyat>")); return; }
+                player.sendMessage(ColorUtil.text("&6&lSiparişlerim:"));
+                for (var o : mine)
+                    player.sendMessage(ColorUtil.text("&7#" + o.id + " &f" + o.material.name().toLowerCase(Locale.ROOT)
+                            + " &8· &f" + o.remaining + "/" + o.totalAmount + " kalan &8· &a" + plugin.economy().format(o.priceEach) + "/adet"));
+            }
+            default -> player.sendMessage(ColorUtil.text(plugin.messages().get("order-usage")));
+        }
+    }
+
+    /** /odul <oyuncu> <miktar> | liste | kaldir <oyuncu> */
+    private void bountyCmd(Player player, String[] args) {
+        if (!plugin.bounty().enabled()) { player.sendMessage(ColorUtil.text(plugin.messages().get("disabled"))); return; }
+        String sub = args[0].toLowerCase(Locale.ROOT);
+        if (sub.equals("liste") || sub.equals("list")) { bountyListCmd(player); return; }
+        if (sub.equals("kaldir") || sub.equals("kaldır") || sub.equals("remove")) {
+            if (!player.hasPermission("snownwcore.admin.bounty")) { player.sendMessage(ColorUtil.text(plugin.messages().get("no-permission"))); return; }
+            if (args.length < 2) { player.sendMessage(ColorUtil.text("&7/odul kaldir <oyuncu>")); return; }
+            org.bukkit.OfflinePlayer t = org.bukkit.Bukkit.getOfflinePlayer(args[1]);
+            plugin.bounty().remove(player, t.getUniqueId());
+            return;
+        }
+        if (args.length < 2) { player.sendMessage(ColorUtil.text("&7/odul <oyuncu> <miktar>  &8·  /odul liste")); return; }
+        Player target = org.bukkit.Bukkit.getPlayerExact(args[0]);
+        if (target == null) { player.sendMessage(ColorUtil.text(plugin.messages().get("player-offline"))); return; }
+        try {
+            double price = Double.parseDouble(args[1].replace(',', '.'));
+            String err = plugin.bounty().place(player, target, price);
+            if (err != null) player.sendMessage(ColorUtil.text(err));
+        } catch (NumberFormatException e) { player.sendMessage(ColorUtil.text(plugin.messages().get("pay-money-invalid"))); }
+    }
+
+    private void bountyListCmd(Player player) {
+        var all = new java.util.ArrayList<>(plugin.bounty().all().entrySet());
+        if (all.isEmpty()) { player.sendMessage(ColorUtil.text(plugin.messages().get("bounty-none"))); return; }
+        all.sort((a, b) -> Double.compare(b.getValue(), a.getValue()));
+        player.sendMessage(ColorUtil.text("&c&lKafa Ödülleri:"));
+        int shown = 0;
+        for (var e : all) {
+            if (shown++ >= 10) break;
+            String n = org.bukkit.Bukkit.getOfflinePlayer(e.getKey()).getName();
+            player.sendMessage(ColorUtil.text("&8» &f" + (n == null ? "?" : n) + " &8· &c" + plugin.economy().format(e.getValue())));
+        }
+    }
 
     private void teamCmd(Player player, String[] args) {
         if (args.length == 0) {
@@ -465,14 +597,29 @@ public final class CoreCommands implements CommandExecutor, TabCompleter {
                 player.sendMessage(ColorUtil.text(plugin.messages().get("team-info")
                         .replace("{team}", tm.name()).replace("{members}", String.valueOf(tm.members().size()))));
             }
-            case "chat" -> {
-                player.sendMessage(ColorUtil.text(plugin.messages().get("team-chat-hint")));
+            case "chat", "sohbet" -> {
+                var tm = plugin.teams().get(player);
+                if (tm == null) { player.sendMessage(ColorUtil.text(plugin.messages().get("team-none"))); return; }
+                // Mesaj varsa takım mesajı gönder: /team sohbet <mesaj...>
+                if (args.length >= 2) {
+                    plugin.teams().sendTeamChat(player, String.join(" ", java.util.Arrays.copyOfRange(args, 1, args.length)));
+                    return;
+                }
+                boolean tcOn = plugin.teams().toggleTeamChat(player.getUniqueId());
+                player.sendMessage(ColorUtil.text(plugin.messages().get(tcOn ? "team-chat-on" : "team-chat-off")));
+            }
+            case "ff", "dostatesi", "dostatesi" -> {
+                var tm = plugin.teams().get(player);
+                if (tm == null) { player.sendMessage(ColorUtil.text(plugin.messages().get("team-none"))); return; }
+                if (!tm.leader().equals(player.getUniqueId())) { player.sendMessage(ColorUtil.text(plugin.messages().get("team-not-leader"))); return; }
+                boolean ff = plugin.teams().toggleFriendlyFire(tm);
+                player.sendMessage(ColorUtil.text(plugin.messages().get(ff ? "team-ff-on" : "team-ff-off")));
             }
             case "home" -> {
                 var tm = plugin.teams().get(player);
                 if (tm == null) { player.sendMessage(ColorUtil.text(plugin.messages().get("team-none"))); return; }
                 if (tm.home() == null) { player.sendMessage(ColorUtil.text(plugin.messages().get("team-no-home"))); return; }
-                plugin.teleports().teleport(player, tm.home(), "Team Home");
+                plugin.teleports().teleport(player, tm.home(), "Takım Evi", "team-home");
             }
             case "sethome" -> {
                 var tm = plugin.teams().get(player);
@@ -488,7 +635,7 @@ public final class CoreCommands implements CommandExecutor, TabCompleter {
                 plugin.teams().clearHome(tm);
                 player.sendMessage(ColorUtil.text(plugin.messages().get("team-home-deleted")));
             }
-            default -> player.sendMessage(ColorUtil.text("&7/team <create|invite|accept|leave|disband|home|sethome|delhome>"));
+            default -> player.sendMessage(ColorUtil.text("&7/team <oluştur|davet|katil|ayril|dagit|sohbet|ff|home|sethome|delhome>"));
         }
     }
 

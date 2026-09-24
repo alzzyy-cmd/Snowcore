@@ -82,11 +82,31 @@ public final class SnowNWCorePlugin extends JavaPlugin {
     private FakePlayerService fakePlayers;
     private OffenseService offenses;
     private AmethystToolService amethystTools;
+    private SellService sell;
+    private OrderService orders;
+    private BountyService bounty;
+    private DeathMessageService deathMessages;
+    private ClearLagService clearLag;
+    private KeyAllService keyAll;
+    private ShardShopService shardShop;
+    private me.snownw.core.gui.ShopGui shopGui;
+    private me.snownw.core.gui.ShardShopGui shardShopGui;
+    private me.snownw.core.listener.DoubleJumpListener doubleJump;
 
     public SpawnStashService spawnStash() { return spawnStash; }
     public FakePlayerService fakePlayers() { return fakePlayers; }
     public OffenseService offenses() { return offenses; }
     public AmethystToolService amethystTools() { return amethystTools; }
+    public SellService sell() { return sell; }
+    public OrderService orders() { return orders; }
+    public BountyService bounty() { return bounty; }
+    public DeathMessageService deathMessages() { return deathMessages; }
+    public ClearLagService clearLag() { return clearLag; }
+    public KeyAllService keyAll() { return keyAll; }
+    public ShardShopService shardShop() { return shardShop; }
+    public me.snownw.core.gui.ShopGui shopGui() { return shopGui; }
+    public me.snownw.core.gui.ShardShopGui shardShopGui() { return shardShopGui; }
+    public me.snownw.core.listener.DoubleJumpListener doubleJump() { return doubleJump; }
 
     public boolean socialAudienceAllows(java.util.UUID owner, java.util.UUID viewer, SettingsStore.Toggle toggle) {
         SettingsStore.Audience audience = settings.getAudience(owner, toggle);
@@ -154,6 +174,15 @@ public final class SnowNWCorePlugin extends JavaPlugin {
         fakePlayers = new FakePlayerService(this);
         offenses = new OffenseService(this);
         amethystTools = new AmethystToolService(this);
+        sell = new SellService(this);
+        orders = new OrderService(this);
+        bounty = new BountyService(this);
+        deathMessages = new DeathMessageService(this);
+        clearLag = new ClearLagService(this);
+        keyAll = new KeyAllService(this);
+        shardShop = new ShardShopService(this);
+        shopGui = new me.snownw.core.gui.ShopGui(this);
+        shardShopGui = new me.snownw.core.gui.ShardShopGui(this);
 
         getServer().getPluginManager().registerEvents(new DialogListener(this), this);
         getServer().getPluginManager().registerEvents(new StatsListener(this), this);
@@ -174,10 +203,19 @@ public final class SnowNWCorePlugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new CombatListener(this), this);
         getServer().getPluginManager().registerEvents(new ExtraSystemsListener(this), this);
         getServer().getPluginManager().registerEvents(new me.snownw.core.listener.AmethystToolListener(this), this);
+        getServer().getPluginManager().registerEvents(new me.snownw.core.gui.ShopGuiListener(this), this);
+        doubleJump = new me.snownw.core.listener.DoubleJumpListener(this);
+        getServer().getPluginManager().registerEvents(doubleJump, this);
+        getServer().getPluginManager().registerEvents(new me.snownw.core.listener.DamageTweakListener(this), this);
+        getServer().getPluginManager().registerEvents(new me.snownw.core.listener.RespawnKitListener(this), this);
+        getServer().getPluginManager().registerEvents(new me.snownw.core.listener.ChatFormatListener(this), this);
+        getServer().getPluginManager().registerEvents(new me.snownw.core.listener.AfkAutoListener(this), this);
+        clearLag.start();
+        keyAll.start();
 
         // Paper plugins cannot use plugin.yml getCommand – register in code
         final CoreCommands cmds = new CoreCommands(this);
-        registerPaperCmd("menu", List.of("snownwcore"), cmds);
+        registerPaperCmd("menu", List.of("snownw", "snow", "panel", "menü"), cmds);
         registerPaperCmd("home", List.of("ev"), cmds);
         registerPaperCmd("sethome", List.of("evayarla"), cmds);
         registerPaperCmd("delhome", List.of("evsil"), cmds);
@@ -231,6 +269,18 @@ public final class SnowNWCorePlugin extends JavaPlugin {
         
         registerPaperCmd("alan", List.of(), cmds);
         registerPaperCmd("alanbaltasi", List.of("alanbaltası"), cmds);
+        registerPaperCmd("cuboid", List.of("kup", "küp"), cmds);
+        registerPaperCmd("baltop", List.of("zenginler", "enler"), cmds);
+        registerPaperCmd("shardmanager", List.of("shardyonetim", "shardyönetim"), cmds);
+        registerPaperCmd("sell", List.of("sat"), cmds);
+        registerPaperCmd("sellall", List.of("sathepsi", "satall"), cmds);
+        registerPaperCmd("order", List.of("siparis", "sipariş", "orders"), cmds);
+        registerPaperCmd("bounty", List.of("odul", "ödül", "bounties"), cmds);
+        registerPaperCmd("market", List.of("magaza", "mağaza", "shop"), cmds);
+        registerPaperCmd("shardshop", List.of("shardmarket", "shardpazari", "shardpazarı"), cmds);
+        registerPaperCmd("clearlag", List.of("lagtemizle", "lagtemizlik"), cmds);
+        registerPaperCmd("keyall", List.of("anahtarver"), cmds);
+        registerPaperCmd("doublejump", List.of("ciftzipla", "çiftzıpla", "dj"), cmds);
 
         getServer().getScheduler().runTaskTimerAsynchronously(this, () -> {
             homes.save();
@@ -318,6 +368,10 @@ public final class SnowNWCorePlugin extends JavaPlugin {
         if (stats != null) stats.save();
         if (combat != null) combat.stop();
         if (spawnStash != null) spawnStash.clear();
+        if (orders != null) orders.save();
+        if (bounty != null) bounty.save();
+        if (clearLag != null) clearLag.stop();
+        if (keyAll != null) keyAll.stop();
         if (fakePlayers != null) fakePlayers.clearAll();
     }
 
