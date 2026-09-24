@@ -82,16 +82,16 @@ public final class HomeStore {
     }
 
     public int homeLimit(Player player) {
-        int max = Math.max(1, plugin.getConfig().getInt("max-homes", 90));
-        int best = 0;
-        for (int i = max; i >= 1; i--) {
+        int max = Math.max(1, plugin.getConfig().getInt("homes.max-homes",
+                plugin.getConfig().getInt("max-homes", 90)));
+        int best = Math.max(0, plugin.getConfig().getInt("homes.default-slots", 2));
+        for (int i = max; i > best; i--) {
             if (player.hasPermission("snownwcore.home." + i)) {
                 best = i;
                 break;
             }
         }
-        if (best == 0 && player.hasPermission("snownwcore.home")) best = 1;
-        return best;
+        return Math.min(best, max);
     }
 
     public Home getSlot(UUID uuid, int slot) {

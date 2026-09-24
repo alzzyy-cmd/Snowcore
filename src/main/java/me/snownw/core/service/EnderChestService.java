@@ -15,18 +15,22 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-/** Expanded ender chest (27 or 54). Physical + command open both use this GUI. */
+/** Genişletilmiş ender sandığı (27 veya 54). Fiziksel + komut açılışı aynı GUI'yi kullanır. */
 public final class EnderChestService {
 
     public static final class Holder implements InventoryHolder {
         private final UUID owner;
+        private Inventory inv;
         public Holder(UUID owner) { this.owner = owner; }
         public UUID owner() { return owner; }
-        @Override public Inventory getInventory() { return null; }
+        void bind(Inventory inv) { this.inv = inv; }
+        @Override public Inventory getInventory() { return inv; }
     }
 
     private final SnowNWCorePlugin plugin;
     private final Map<UUID, Long> lastOpen = new ConcurrentHashMap<>();
+    /** owner -> açık olan viewer (iki kişi aynı anda aynı sandığı açarsa kopyalama olur) */
+    private final Map<UUID, UUID> openViewers = new ConcurrentHashMap<>();
     private final File extraFile;
     private YamlConfiguration extra;
 
@@ -58,18 +62,32 @@ public final class EnderChestService {
         openFor(player, player.getUniqueId());
     }
 
-    /** Viewer opens target's ender chest (self or admin). */
+    /** Viewer, ownerId'nin ender sandığını açar (kendisi veya yetkili). */
     public void openFor(Player viewer, UUID ownerId) {
         if (!plugin.getConfig().getBoolean("enderchest.enabled", true)) {
             viewer.sendMessage(ColorUtil.text(plugin.messages().get("disabled")));
             return;
         }
+        // Aynı sandığı iki kişi aynı anda açarsa kaydetmede çakışma/kopyalama olur.
+        UUID current = openViewers.get(ownerId);
+        if (current != null && !current.equals(viewer.getUniqueId())) {
+            Player other = Bukkit.getPlayer(current);
+            boolean stillOpen = other != null && other.isOnline()
+                    && other.getOpenInventory().getTopInventory().getHolder() instanceof Holder h
+                    && h.owner().equals(ownerId);
+            if (stillOpen) {
+                viewer.sendMessage(ColorUtil.text("&cBu ender sandığı şu anda başka biri tarafından açık. Kopyalama koruması nedeniyle açamazsın."));
+                return;
+            }
+        }
         if (viewer.getUniqueId().equals(ownerId) && !tryCooldown(viewer)) return;
 
         boolean six = plugin.getConfig().getBoolean("enderchest.six-row", true);
         int size = six ? 54 : 27;
-        String title = plugin.getConfig().getString("enderchest.title", "&8Ender Chest");
-        Inventory inv = Bukkit.createInventory(new Holder(ownerId), size, ColorUtil.text(title));
+        String title = plugin.getConfig().getString("enderchest.title", "&8Ender Sandığı");
+        Holder holder = new Holder(ownerId);
+        Inventory inv = Bukkit.createInventory(holder, size, ColorUtil.text(title));
+        holder.bind(inv);
 
         org.bukkit.OfflinePlayer off = Bukkit.getOfflinePlayer(ownerId);
         ItemStack[] base = null;
@@ -87,6 +105,7 @@ public final class EnderChestService {
                 if (it != null) inv.setItem(i, it);
             }
         }
+        openViewers.put(ownerId, viewer.getUniqueId());
         viewer.openInventory(inv);
         try {
             viewer.playSound(viewer.getLocation(), org.bukkit.Sound.BLOCK_ENDER_CHEST_OPEN, 1f, 1f);
@@ -113,6 +132,12 @@ public final class EnderChestService {
             try { extra.save(extraFile); } catch (IOException e) {
                 plugin.getLogger().warning("enderchest-extra: " + e.getMessage());
             }
+        }
+    }
+
+    public void releaseViewer(UUID ownerId, UUID viewerId) {
+        if (openViewers.get(ownerId) != null && openViewers.get(ownerId).equals(viewerId)) {
+            openViewers.remove(ownerId);
         }
     }
 

@@ -38,6 +38,7 @@ public final class EnderChestListener implements Listener {
         Inventory inv = e.getInventory();
         if (!(inv.getHolder() instanceof EnderChestService.Holder holder)) return;
         plugin.enderChest().saveFrom(inv, holder.owner());
+        plugin.enderChest().releaseViewer(holder.owner(), player.getUniqueId());
         plugin.enderChest().markClose(player);
         try {
             player.playSound(player.getLocation(), org.bukkit.Sound.BLOCK_ENDER_CHEST_CLOSE, 1f, 1f);

@@ -35,13 +35,18 @@ public final class TeleportService {
     }
 
     public void teleport(Player player, Location dest, String homeName) {
+        teleport(player, dest, homeName, "default");
+    }
+
+    /** type: home, team-home, spawn, afk, tpa, warp, rtp, default — teleport-delays.* altından okunur. */
+    public void teleport(Player player, Location dest, String homeName, String type) {
+        if (type == null || type.isBlank()) type = "default";
         if (plugin.combat() != null && plugin.combat().isInCombat(player)) {
             player.sendMessage(ColorUtil.text(plugin.messages().get("combat-command-blocked")));
             return;
         }
         cancel(player);
-        int delay = Math.max(0, plugin.getConfig().getInt("homes.teleport-delay-seconds",
-                plugin.getConfig().getInt("teleport-delay-seconds", 5)));
+        int delay = delayFor(type);
         if (delay <= 0 || player.hasPermission("snownwcore.admin.nodelay")) {
             teleportNow(player, dest, homeName);
             return;
@@ -113,6 +118,13 @@ public final class TeleportService {
         } catch (Exception e) {
             player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, vol, pitch);
         }
+    }
+
+    private int delayFor(String type) {
+        int specific = plugin.getConfig().getInt("teleport-delays." + type, -1);
+        if (specific >= 0) return specific;
+        return Math.max(0, plugin.getConfig().getInt("homes.teleport-delay-seconds",
+                plugin.getConfig().getInt("teleport-delay-seconds", 5)));
     }
 
     private String msg(String key) {

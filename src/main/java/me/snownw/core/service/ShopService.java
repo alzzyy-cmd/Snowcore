@@ -148,12 +148,14 @@ public final class ShopService {
 
     private boolean hasItems(org.bukkit.entity.Player p, Entry e, int amount) {
         int count = 0;
-        for (ItemStack i : p.getInventory().getContents()) if (matches(i, e)) count += i.getAmount();
+        for (ItemStack i : p.getInventory().getStorageContents()) if (matches(i, e)) count += i.getAmount();
         return count >= amount;
     }
+    /** hasItems ile aynı kaynak havuzu (ana 36 yuva) — zırh/ikinci el dahil değildir. */
     private void removeItems(org.bukkit.entity.Player p, Entry e, int amount) {
-        for (int slot = 0; slot < p.getInventory().getSize() && amount > 0; slot++) {
-            ItemStack i = p.getInventory().getItem(slot);
+        ItemStack[] storage = p.getInventory().getStorageContents();
+        for (int slot = 0; slot < storage.length && amount > 0; slot++) {
+            ItemStack i = storage[slot];
             if (!matches(i, e)) continue;
             int take = Math.min(amount, i.getAmount());
             i.setAmount(i.getAmount() - take);

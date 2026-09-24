@@ -89,15 +89,15 @@ public final class StatsStore {
         return list;
     }
 
-    /** value stored as seconds; player-facing format intentionally omits seconds. */
+    /** Değer saniye cinsinden; gösterim Türkçe kısaltılmış (g/sa/dk). */
     public static String formatPlaytime(long seconds) {
         if (seconds < 0) seconds = 0;
         long d = seconds / 86400;
         long h = (seconds % 86400) / 3600;
         long m = (seconds % 3600) / 60;
-        if (d > 0) return d + "d " + h + "h " + m + "m";
-        if (h > 0) return h + "h " + m + "m";
-        return m + "m";
+        if (d > 0) return d + "g " + h + "sa";
+        if (h > 0) return h + "sa " + m + "dk";
+        return m + "dk";
     }
 
     public boolean hasData(UUID uuid) {

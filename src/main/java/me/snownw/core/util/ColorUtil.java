@@ -7,7 +7,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class ColorUtil {
-    private static final LegacyComponentSerializer LEGACY = LegacyComponentSerializer.legacyAmpersand();
+    // &#RRGGBB ve &x&F&F&0&0&0&0 hex biçimlerini de destekleyen serileştirici
+    private static final LegacyComponentSerializer LEGACY = LegacyComponentSerializer.builder()
+            .character('&')
+            .hexColors()
+            .useUnusualXRepeatedCharacterHexFormat()
+            .build();
+    private static final LegacyComponentSerializer PLAIN = LegacyComponentSerializer.legacyAmpersand();
     private static final Map<Character, Character> REMAP = new HashMap<>();
 
     private ColorUtil() {}
@@ -24,22 +30,35 @@ public final class ColorUtil {
         }
     }
 
-    /** Never italic – strip &o / §o and force italic false. */
+    /** &#RRGGBB hex + & renk kodlarını Component'e çevirir. Asla italik yapmaz. */
     public static Component text(String s) {
         if (s == null || s.isEmpty()) return Component.empty();
         String clean = s.replace("&o", "").replace("§o", "")
                 .replace("&O", "").replace("§O", "");
         StringBuilder out = new StringBuilder(clean.length());
-        for (int i=0;i<clean.length();i++) {
-            char c=clean.charAt(i);
-            if ((c=='&'||c=='§') && i+1<clean.length()) {
-                char code=Character.toLowerCase(clean.charAt(i+1));
-                Character mapped=REMAP.get(code);
-                out.append(c).append(mapped==null?clean.charAt(i+1):mapped); i++;
+        for (int i = 0; i < clean.length(); i++) {
+            char c = clean.charAt(i);
+            if ((c == '&' || c == '§') && i + 1 < clean.length()) {
+                char code = Character.toLowerCase(clean.charAt(i + 1));
+                Character mapped = REMAP.get(code);
+                out.append(c).append(mapped == null ? clean.charAt(i + 1) : mapped);
+                i++;
             } else out.append(c);
         }
-        clean=out.toString();
+        clean = out.toString();
         return LEGACY.deserialize(clean).decoration(TextDecoration.ITALIC, false);
+    }
+
+    /** Renk kodlarını koruyan düz metin (tabela gibi String isteyen yerler için). */
+    public static String strip(String s) {
+        if (s == null) return "";
+        return PLAIN.stripTags(s);
+    }
+
+    /** Legacy & metni Sprite → § biçime çevirir (tabela satırları). */
+    public static String legacySection(String s) {
+        if (s == null) return "";
+        return s.replace('&', '§');
     }
 
     public static String replace(String s, String k, String v) {

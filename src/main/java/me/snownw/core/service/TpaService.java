@@ -47,12 +47,12 @@ public final class TpaService {
         } else {
             to.sendMessage(ColorUtil.text(msg("tpa-received").replace("{name}", from.getName())));
         }
-        Component click = Component.text("[CLICK]")
+        Component click = Component.text("[KABUL ET]")
                 .decoration(TextDecoration.ITALIC, false)
                 .color(NamedTextColor.GREEN)
                 .clickEvent(ClickEvent.runCommand("/tpaccept"))
-                .hoverEvent(HoverEvent.showText(Component.text("Accept TPA")));
-        Component rest = Component.text(" or type /tpaccept " + from.getName())
+                .hoverEvent(HoverEvent.showText(Component.text("TPA isteğini kabul et")));
+        Component rest = Component.text(" yaz veya tıkla · reddetmek için /tpdeny")
                 .decoration(TextDecoration.ITALIC, false)
                 .color(NamedTextColor.GRAY);
         to.sendMessage(click.append(rest));

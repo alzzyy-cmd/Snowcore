@@ -41,22 +41,36 @@ jobs:
           echo "version=$V" >> "$GITHUB_OUTPUT"
 
       - name: Build with Maven
-        run: mvn -q -B package -Dpaper.version=${{ steps.paper.outputs.version }}
+        id: build
+        continue-on-error: true
+        run: |
+          mvn -B package -Dpaper.version=${{ steps.paper.outputs.version }} 2>&1 | tee build-output.log
+          exit ${PIPESTATUS[0]}
+
+      - name: Save build log and jar
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase origin ${{ github.ref_name }} || git pull --rebase origin main
+          mkdir -p build
+          cp -f build-output.log build/build.log 2>/dev/null || true
+          if [ "${{ steps.build.outcome }}" == "success" ]; then
+            rm -f build/*.jar
+            cp target/*.jar build/ 2>/dev/null || true
+          fi
+          git add -f build/
+          git commit -m "ci: build output [skip ci]" || echo "no changes"
+          git push
 
       - name: Upload jar artifact
+        if: success() && steps.build.outcome == 'success'
         uses: actions/upload-artifact@v4
         with:
           name: SnowNWCore-jar
           path: target/*.jar
           retention-days: 30
 
-      - name: Commit built jar back to repo (build/)
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          mkdir -p build
-          rm -f build/*.jar
-          cp target/*.jar build/
-          git add -f build/*.jar
-          git commit -m "ci: build jar [skip ci]" || echo "no changes"
-          git push
+      - name: Fail job if build failed
+        if: steps.build.outcome != 'success'
+        run: exit 1
