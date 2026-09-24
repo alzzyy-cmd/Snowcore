@@ -608,7 +608,7 @@ public final class CoreCommands implements CommandExecutor, TabCompleter {
                 boolean tcOn = plugin.teams().toggleTeamChat(player.getUniqueId());
                 player.sendMessage(ColorUtil.text(plugin.messages().get(tcOn ? "team-chat-on" : "team-chat-off")));
             }
-            case "ff", "dostatesi", "dostatesi" -> {
+            case "ff", "dostatesi" -> {
                 var tm = plugin.teams().get(player);
                 if (tm == null) { player.sendMessage(ColorUtil.text(plugin.messages().get("team-none"))); return; }
                 if (!tm.leader().equals(player.getUniqueId())) { player.sendMessage(ColorUtil.text(plugin.messages().get("team-not-leader"))); return; }

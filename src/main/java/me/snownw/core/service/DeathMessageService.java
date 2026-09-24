@@ -69,7 +69,6 @@ public final class DeathMessageService {
             case STARVATION -> "starvation";
             case FREEZE -> "freeze";
             case LIGHTNING -> "lightning";
-            case CACTUS -> "cactus";
             case CONTACT -> "contact";
             case MAGIC, POISON -> "magic";
             case WITHER -> "wither";
