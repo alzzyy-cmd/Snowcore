@@ -57,10 +57,10 @@ public final class TeamGui implements InventoryHolder {
                 "&7/team invite <player>"));
         if (tm.home() != null) {
             inv.setItem(12, named(Material.RED_BED, "&aTeam Home",
-                    "&7Tıkla to teleport"));
+                    "&7Işınlanmak için tıkla"));
         } else if (leader) {
             inv.setItem(12, named(Material.GREEN_BED, "&aSet Team Home",
-                    "&7Tıkla to set here"));
+                    "&7Burada kurmak için tıkla"));
         } else {
             inv.setItem(12, named(Material.GRAY_BED, "&7No Team Home"));
         }

@@ -73,7 +73,7 @@ public final class CuboidService {
         ItemStack item = new ItemStack(Material.WOODEN_AXE);
         ItemMeta meta = item.getItemMeta();
         meta.displayName(me.snownw.core.util.ColorUtil.text(plugin.getConfig().getString("wand.name", "&6SnowNW Wand")));
-        meta.lore(List.of(me.snownw.core.util.ColorUtil.text("&7Left: pos1  Right: pos2")));
+        meta.lore(List.of(me.snownw.core.util.ColorUtil.text("&7Sol tık: 1. konum  ·  Sağ tık: 2. konum")));
         item.setItemMeta(meta);
         return item;
     }

@@ -175,6 +175,23 @@ combat:
     - tpno
     - tpauto
     - tpacancel
+    - sell
+    - sat
+    - sellall
+    - sathepsi
+    - market
+    - magaza
+    - shop
+    - ah
+    - aciktirma
+    - order
+    - siparis
+    - sipariş
+    - shardshop
+    - shardmarket
+    - enderchest
+    - ec
+    - pay
 
 # ============================================================
 # Chat / join-leave / death

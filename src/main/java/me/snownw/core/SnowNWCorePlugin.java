@@ -389,6 +389,12 @@ public final class SnowNWCorePlugin extends JavaPlugin {
         if (scoreboard != null) scoreboard.reload();
         if (areas != null) areas.load();
         if (combat != null) combat.start();
+        if (orders != null) { orders.load(); }
+        if (bounty != null) { bounty.load(); }
+        if (shardShop != null) shardShop.reload();
+        if (deathMessages != null) deathMessages.reload();
+        if (clearLag != null) clearLag.start();
+        if (keyAll != null) keyAll.start();
     }
 
     public boolean cmdEnabled(String name) {

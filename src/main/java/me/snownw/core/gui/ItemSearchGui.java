@@ -98,7 +98,7 @@ public final class ItemSearchGui implements InventoryHolder {
             ItemMeta meta = item.getItemMeta();
             if (meta != null) {
                 meta.displayName(ColorUtil.text("&f" + m.name()));
-                meta.lore(List.of(ColorUtil.text("&7Tıkla to set as menu icon")));
+                meta.lore(List.of(ColorUtil.text("&7Menü simgesi yapmak için tıkla")));
                 item.setItemMeta(meta);
             }
             inv.setItem(i, item);
