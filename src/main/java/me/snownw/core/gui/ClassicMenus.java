@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-/** Chest GUIs for clients without dialog support (1.21.7 below). */
+/** Diyalog desteksiz istemciler için (1.21.6 ve altı) sandık menüleri. */
 public final class ClassicMenus {
 
     public enum Kind { HOMES, SETTINGS, SETTINGS_CAT, STATS, FRIENDS }
@@ -41,59 +41,62 @@ public final class ClassicMenus {
         this.plugin = plugin;
     }
 
-    /** Turkish alias used by the dialog layer / commands. */
     public void openEvler(Player player) { openHomes(player); }
 
-    /** Turkish alias used by the dialog layer. */
     public void openİstatistikler(Player player, UUID target) { openStats(player, target); }
 
     public void openHomes(Player player) {
         int max = plugin.getConfig().getInt("homes.max-homes",
                 plugin.getConfig().getInt("max-homes", 90));
         int limit = plugin.homes().homeLimit(player);
-        Holder h = new Holder(Kind.HOMES, null, 54, ColorUtil.text("&8HOMES"));
+        Holder h = new Holder(Kind.HOMES, null, 54, ColorUtil.text("&8Evler"));
         Inventory inv = h.getInventory();
         for (int slot = 1; slot <= Math.min(45, max); slot++) {
             if (slot > limit) {
-                inv.setItem(slot - 1, item(Material.RED_BED, "&c#" + slot + " Locked",
-                        List.of("&7Need snownwcore.home." + slot)));
+                inv.setItem(slot - 1, item(Material.RED_BED, "&c#" + slot + " Kilitli",
+                        List.of("&7Açmak için: snownwcore.home." + slot + " yetkisi")));
             } else {
                 HomeStore.Home home = plugin.homes().getSlot(player.getUniqueId(), slot);
                 if (home != null) {
                     inv.setItem(slot - 1, item(Material.WHITE_BED, "&f#" + slot + " &7" + home.name(),
-                            List.of("&7Left: teleport", "&7Right: delete")));
+                            List.of("&7Sol tık: &fışınlan", "&7Sağ tık: &fsil")));
                 } else {
-                    inv.setItem(slot - 1, item(Material.LIGHT_GRAY_BED, "&7#" + slot + " Empty",
-                            List.of("&7Tıkla to set home")));
+                    inv.setItem(slot - 1, item(Material.LIGHT_GRAY_BED, "&7#" + slot + " Boş",
+                            List.of("&7Ev kurmak için tıkla")));
                 }
             }
         }
-        inv.setItem(49, item(Material.BARRIER, "&7Close", List.of()));
+        inv.setItem(49, item(Material.BARRIER, "&cKapat", List.of()));
         player.openInventory(inv);
     }
 
     public void openAyarlar(Player player) {
-        Holder h = new Holder(Kind.SETTINGS, null, 27, ColorUtil.text("&8SETTINGS"));
+        if (!plugin.getConfig().getBoolean("menus.classic-enabled", true)) {
+            DialogMenus.openAyarlar(plugin, player);
+            return;
+        }
+        Holder h = new Holder(Kind.SETTINGS, null, 27, ColorUtil.text("&8Ayarlar"));
         Inventory inv = h.getInventory();
-        inv.setItem(10, item(Material.PAPER, "&fSohbet", List.of("&7Tıkla")));
-        inv.setItem(11, item(Material.IRON_SWORD, "&fPvP", List.of("&7Tıkla")));
-        inv.setItem(12, item(Material.ENDER_EYE, "&fGizlilik", List.of("&7Tıkla")));
-        inv.setItem(13, item(Material.BELL, "&fBildirimler", List.of("&7Tıkla")));
-        inv.setItem(14, item(Material.SPYGLASS, "&fGörünüm", List.of("&7Tıkla")));
-        inv.setItem(15, item(Material.PAINTING, "&fScoreboard", List.of("&7Tıkla")));
-        inv.setItem(22, item(Material.BARRIER, "&7Close", List.of()));
+        inv.setItem(10, item(Material.PAPER, "&fSohbet", List.of("&7Mesaj ayarlarını aç")));
+        inv.setItem(11, item(Material.IRON_SWORD, "&fPvP", List.of("&7PvP ayarlarını aç")));
+        inv.setItem(12, item(Material.ENDER_EYE, "&fGizlilik", List.of("&7Gizlilik ayarlarını aç")));
+        inv.setItem(13, item(Material.BELL, "&fBildirimler", List.of("&7Bildirim ayarlarını aç")));
+        inv.setItem(14, item(Material.SPYGLASS, "&fGörünüm", List.of("&7Görünüm ayarlarını aç")));
+        inv.setItem(15, item(Material.PAINTING, "&fSkor tablosu", List.of("&7Skor tablosu ayarlarını aç")));
+        inv.setItem(16, item(Material.GOLD_INGOT, "&fEkonomi", List.of("&7Ekonomi ayarlarını aç")));
+        inv.setItem(22, item(Material.BARRIER, "&cKapat", List.of()));
         player.openInventory(inv);
     }
 
     public void openAyarlarCat(Player player, String cat) {
-        Holder h = new Holder(Kind.SETTINGS_CAT, cat, 36, ColorUtil.text("&8" + cat.toUpperCase()));
+        Holder h = new Holder(Kind.SETTINGS_CAT, cat, 36, ColorUtil.text("&8Ayarlar · " + cat));
         Inventory inv = h.getInventory();
-        int i = 0;
+        int i = 10;
         for (SettingsStore.Toggle t : SettingsStore.Toggle.values()) {
             if (!t.category().equalsIgnoreCase(cat)) continue;
             boolean on = plugin.settings().get(player.getUniqueId(), t);
             inv.setItem(i++, item(on ? Material.LIME_DYE : Material.GRAY_DYE,
-                    "&f" + t.label() + " " + (on ? "&aON" : "&cOFF"),
+                    "&f" + t.label() + " " + (on ? "&aAÇIK" : "&cKAPALI"),
                     List.of("&7Değiştirmek için tıkla", "&8" + t.name())));
         }
         inv.setItem(31, item(Material.ARROW, "&7Geri", List.of()));
@@ -103,34 +106,34 @@ public final class ClassicMenus {
     public void openStats(Player player, UUID target) {
         String name = Bukkit.getOfflinePlayer(target).getName();
         if (name == null) name = "?";
-        Holder h = new Holder(Kind.STATS, target.toString(), 27, ColorUtil.text("&8" + name + " STATS"));
+        Holder h = new Holder(Kind.STATS, target.toString(), 27, ColorUtil.text("&8" + name + " · İstatistikler"));
         Inventory inv = h.getInventory();
-        inv.setItem(10, item(Material.DIAMOND_SWORD, "&fKills",
+        inv.setItem(10, item(Material.DIAMOND_SWORD, "&fÖldürme",
                 List.of("&7" + plugin.stats().get(target, StatsStore.Type.KILLS))));
-        inv.setItem(11, item(Material.SKELETON_SKULL, "&fÖlümler",
+        inv.setItem(11, item(Material.SKELETON_SKULL, "&fÖlüm",
                 List.of("&7" + plugin.stats().get(target, StatsStore.Type.DEATHS))));
-        inv.setItem(12, item(Material.IRON_PICKAXE, "&fBlocks",
+        inv.setItem(12, item(Material.IRON_PICKAXE, "&fKırılan blok",
                 List.of("&7" + plugin.stats().get(target, StatsStore.Type.BLOCKS))));
-        inv.setItem(13, item(Material.ZOMBIE_HEAD, "&fMobs",
+        inv.setItem(13, item(Material.ZOMBIE_HEAD, "&fKesilen yaratık",
                 List.of("&7" + plugin.stats().get(target, StatsStore.Type.MOBS))));
-        inv.setItem(14, item(Material.CLOCK, "&fPlaytime",
+        inv.setItem(14, item(Material.CLOCK, "&fOynama süresi",
                 List.of("&7" + StatsStore.formatPlaytime(
                         plugin.stats().get(target, StatsStore.Type.PLAYTIME)))));
-        inv.setItem(22, item(Material.BARRIER, "&7Close", List.of()));
+        inv.setItem(22, item(Material.BARRIER, "&cKapat", List.of()));
         player.openInventory(inv);
     }
 
     public void openFriends(Player player) {
-        Holder h = new Holder(Kind.FRIENDS, null, 54, ColorUtil.text("&8Friends"));
+        Holder h = new Holder(Kind.FRIENDS, null, 54, ColorUtil.text("&8Arkadaşlar"));
         Inventory inv = h.getInventory();
         int i = 0;
         for (UUID id : plugin.friends().following(player.getUniqueId())) {
             if (i >= 45) break;
             String n = Bukkit.getOfflinePlayer(id).getName();
             inv.setItem(i++, item(Material.PLAYER_HEAD, "&f" + (n != null ? n : "?"),
-                    List.of("&7Takip ettiklerim")));
+                    List.of("&7Takip ettiğiniz oyuncu", "&7Detaylar için: &f/arkadas")));
         }
-        inv.setItem(49, item(Material.BARRIER, "&7Close", List.of()));
+        inv.setItem(49, item(Material.BARRIER, "&cKapat", List.of()));
         player.openInventory(inv);
     }
 

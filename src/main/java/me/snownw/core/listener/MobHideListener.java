@@ -81,12 +81,8 @@ public final class MobHideListener implements Listener {
             }
         }
 
-        // stop residual mob sounds for this player
-        if (hide) {
-            try {
-                player.stopAllSounds();
-            } catch (Throwable ignored) {}
-        }
+        // Not: stopAllSounds() tüm sesleri (müzik, portallar dahil) keser; yaratık sesleri
+        // gizlemek için varlık gizlenirken setSilent(true) uygulanır — yeterlidir.
     }
 
     @EventHandler

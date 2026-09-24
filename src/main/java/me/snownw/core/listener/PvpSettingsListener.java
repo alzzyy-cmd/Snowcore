@@ -1,15 +1,11 @@
 package me.snownw.core.listener;
 
 import me.snownw.core.SnowNWCorePlugin;
-import me.snownw.core.data.SettingsStore;
-import org.bukkit.entity.EnderCrystal;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityExplodeEvent;
 
 /** Applies PvP-related settings from Ayarlar menu. */
 public final class PvpSettingsListener implements Listener {
@@ -42,14 +38,4 @@ public final class PvpSettingsListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onExplode(EntityExplodeEvent e) {
-        if (!(e.getEntity() instanceof EnderCrystal crystal)) return;
-        for (Player p : crystal.getWorld().getPlayers()) {
-            if (p.getLocation().distanceSquared(crystal.getLocation()) > 256) continue;
-            if (!plugin.settings().get(p.getUniqueId(), SettingsStore.Toggle.EXPLOSION_SOUNDS)) {
-                try { p.stopAllSounds(); } catch (Throwable ignored) {}
-            }
-        }
-    }
 }

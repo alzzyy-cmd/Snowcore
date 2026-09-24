@@ -33,11 +33,22 @@ public final class ExtraSystemsService {
     }
 
     public boolean isFrozen(UUID id) { return frozen.containsKey(id); }
+    /** Dondurma: kar hasarı yerine hareket/hasar engeli + ağır yavaşlatma (setFreezeTicks öldürür!). */
     public void freeze(Player p) {
         frozen.put(p.getUniqueId(), System.currentTimeMillis());
-        p.setFreezeTicks(Math.max(p.getFreezeTicks(), 20 * 60));
+        try {
+            p.addPotionEffect(new org.bukkit.potion.PotionEffect(org.bukkit.potion.PotionEffectType.SLOWNESS, 20 * 3600, 10, false, false, false));
+            p.addPotionEffect(new org.bukkit.potion.PotionEffect(org.bukkit.potion.PotionEffectType.JUMP_BOOST, 20 * 3600, 250, false, false, false));
+        } catch (Throwable ignored) {}
+        if (p.getFallDistance() > 0) p.setFallDistance(0);
     }
-    public void unfreeze(Player p) { frozen.remove(p.getUniqueId()); p.setFreezeTicks(0); }
+    public void unfreeze(Player p) {
+        frozen.remove(p.getUniqueId());
+        try {
+            p.removePotionEffect(org.bukkit.potion.PotionEffectType.SLOWNESS);
+            p.removePotionEffect(org.bukkit.potion.PotionEffectType.JUMP_BOOST);
+        } catch (Throwable ignored) {}
+    }
     public Set<UUID> frozen() { return Collections.unmodifiableSet(frozen.keySet()); }
 
     public boolean isAfk(Player p) { return afk.containsKey(p.getUniqueId()); }

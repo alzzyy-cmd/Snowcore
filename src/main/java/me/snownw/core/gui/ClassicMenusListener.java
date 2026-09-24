@@ -51,19 +51,20 @@ public final class ClassicMenusListener implements Listener {
                 } else {
                     plugin.homes().setSlot(player.getUniqueId(), homeSlot, player.getLocation(), null, limit);
                     player.sendMessage(ColorUtil.text(plugin.messages().get("home-set")
-                            .replace("{slot}", String.valueOf(homeSlot))));
+                            .replace("{name}", "#" + homeSlot)));
                     plugin.classic().openHomes(player);
                 }
             }
             case SETTINGS -> {
                 if (slot == 22) { player.closeInventory(); return; }
                 String cat = switch (slot) {
-                    case 10 -> "Chat";
+                    case 10 -> "Sohbet";
                     case 11 -> "PvP";
                     case 12 -> "Gizlilik";
-                    case 13 -> "Notifications";
-                    case 14 -> "Visuals";
-                    case 15 -> "Scoreboard";
+                    case 13 -> "Bildirimler";
+                    case 14 -> "Görünüm";
+                    case 15 -> "Skor tablosu";
+                    case 16 -> "Ekonomi";
                     default -> null;
                 };
                 if (cat != null) plugin.classic().openAyarlarCat(player, cat);
@@ -74,8 +75,8 @@ public final class ClassicMenusListener implements Listener {
                 if (meta == null || meta.lore() == null) return;
                 for (var line : meta.lore()) {
                     String plain = net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(line);
-                    if (plain.startsWith("§8") || plain.length() > 2) {
-                        String key = plain.replace("§8", "").trim();
+                    String key = plain.trim();
+                    if (plain.length() > 2) {
                         try {
                             SettingsStore.Toggle t = SettingsStore.Toggle.valueOf(key);
                             boolean on = plugin.settings().toggle(player.getUniqueId(), t);
@@ -90,7 +91,7 @@ public final class ClassicMenusListener implements Listener {
                             }
                             player.sendMessage(ColorUtil.text(plugin.messages().get("settings-toggled")
                                     .replace("{label}", t.label())
-                                    .replace("{state}", on ? "&aON" : "&cOFF")));
+                                    .replace("{state}", on ? "&aAÇIK" : "&cKAPALI")));
                             plugin.classic().openAyarlarCat(player, holder.extra);
                         } catch (Exception ignored) {}
                     }

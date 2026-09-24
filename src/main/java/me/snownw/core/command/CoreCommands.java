@@ -408,11 +408,17 @@ public final class CoreCommands implements CommandExecutor, TabCompleter {
         }
         String sub = args[0].toLowerCase(Locale.ROOT);
         switch (sub) {
-            case "create" -> {
-                if (args.length < 2) { player.sendMessage(ColorUtil.text("&7/team create <name>")); return; }
-                if (plugin.teams().create(player, args[1]))
-                    player.sendMessage(ColorUtil.text(plugin.messages().get("team-created").replace("{team}", args[1])));
-                else player.sendMessage(ColorUtil.text(plugin.messages().get("team-create-fail")));
+            case "create", "oluştur", "olustur" -> {
+                if (args.length < 2) { player.sendMessage(ColorUtil.text("&7/team create <isim>")); return; }
+                switch (plugin.teams().create(player, args[1])) {
+                    case OK -> player.sendMessage(ColorUtil.text(plugin.messages().get("team-created").replace("{team}", args[1])));
+                    case INVALID_NAME -> player.sendMessage(ColorUtil.text(plugin.messages().get("team-invalid-name")
+                            .replace("{min}", String.valueOf(plugin.teams().minNameLength()))
+                            .replace("{max}", String.valueOf(plugin.teams().maxNameLength()))));
+                    case RESTRICTED_NAME -> player.sendMessage(ColorUtil.text(plugin.messages().get("team-restricted-name")));
+                    case ALREADY_IN_TEAM -> player.sendMessage(ColorUtil.text(plugin.messages().get("team-already-in")));
+                    case NAME_TAKEN -> player.sendMessage(ColorUtil.text(plugin.messages().get("team-name-taken")));
+                }
             }
             case "disband" -> {
                 var tm = plugin.teams().get(player);

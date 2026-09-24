@@ -13,7 +13,8 @@ public final class ColorUtil {
             .hexColors()
             .useUnusualXRepeatedCharacterHexFormat()
             .build();
-    private static final LegacyComponentSerializer PLAIN = LegacyComponentSerializer.legacyAmpersand();
+    private static final java.util.regex.Pattern LEGACY_PATTERN =
+            java.util.regex.Pattern.compile("(?i)[&§][0-9A-FK-ORX]|(?i)&#([0-9A-F]{6})|&x(&[0-9A-F]){6}");
     private static final Map<Character, Character> REMAP = new HashMap<>();
 
     private ColorUtil() {}
@@ -49,10 +50,10 @@ public final class ColorUtil {
         return LEGACY.deserialize(clean).decoration(TextDecoration.ITALIC, false);
     }
 
-    /** Renk kodlarını koruyan düz metin (tabela gibi String isteyen yerler için). */
+    /** Renk kodlarını silen düz metin (tabela gibi String isteyen yerler için). */
     public static String strip(String s) {
         if (s == null) return "";
-        return PLAIN.stripTags(s);
+        return LEGACY_PATTERN.matcher(s).replaceAll("");
     }
 
     /** Legacy & metni Sprite → § biçime çevirir (tabela satırları). */

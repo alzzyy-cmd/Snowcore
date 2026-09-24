@@ -22,6 +22,11 @@ public final class SpawnerListener implements Listener {
         if(!(e.getBlock().getState() instanceof CreatureSpawner sp))return;
         if(!plugin.getConfig().getBoolean("spawners.drop-on-break", true)) return;
         if(!e.getPlayer().hasPermission("snownwcore.spawner.break")) return;
+        if(plugin.getConfig().getBoolean("spawners.require-silk-touch", true)
+                && !e.getPlayer().getInventory().getItemInMainHand().containsEnchantment(org.bukkit.enchantments.Enchantment.SILK_TOUCH)) {
+            e.getPlayer().sendActionBar(me.snownw.core.util.ColorUtil.text("&cSpawner kırmak için &fİpeksi Dokunuş &cbüyüsü gerekiyor."));
+            return;
+        }
         e.setExpToDrop(0);
         e.setDropItems(false);
         var type=sp.getSpawnedType();
